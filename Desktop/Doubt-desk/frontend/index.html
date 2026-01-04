@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doubt Desk - Academic Help Platform</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      padding: 50px; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 0;
+    }
+    h1 { 
+      font-size: 3em; 
+      margin-bottom: 20px; 
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    p { font-size: 1.2em; margin-bottom: 40px; }
+    .roles-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .role-card { 
+      width: 250px; 
+      padding: 30px 20px; 
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      color: #333;
+    }
+    .role-card:hover { 
+      transform: translateY(-10px) scale(1.05); 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .role-card h3 { 
+      font-size: 1.8em; 
+      margin-bottom: 15px; 
+      color: #1e3a8a;
+    }
+    .role-icon { font-size: 3em; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>🚀 Doubt Desk</h1>
+  <p>Select your role to get started:</p>
+  
+  <div class="roles-container">
+    <div class="role-card" onclick="window.location.href='student-auth.html'">
+      <div class="role-icon">👨‍🎓</div>
+      <h3>Student</h3>
+      <p>Ask doubts anonymously<br>or get guidance from faculty</p>
+    </div>
+    
+    <div class="role-card" onclick="window.location.href='faculty-auth.html'">
+      <div class="role-icon">👨‍🏫</div>
+      <h3>Faculty</h3>
+      <p>Answer doubts in your subjects<br>Help students succeed</p>
+    </div>
+    
+    <div class="role-card" onclick="window.location.href='admin-auth.html'">
+      <div class="role-icon">🛡️</div>
+      <h3>Admin</h3>
+      <p>View all doubts & answers<br>Full platform control</p>
+    </div>
+  </div>
+</body>
+</html>
