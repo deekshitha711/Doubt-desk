@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ask Doubt - Doubt Desk</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 40px 20px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+    .container { max-width: 600px; margin: 0 auto; }
+    h1 { text-align: center; color: #333; font-size: 2.5em; margin-bottom: 30px; }
+    form { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+    label { display: block; margin-bottom: 8px; color: #555; font-weight: bold; }
+    select, textarea, input { width: 100%; padding: 15px; margin-bottom: 20px; border: 2px solid #e1e5e9; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
+    select:focus, textarea:focus, input:focus { outline: none; border-color: #4CAF50; }
+    textarea { resize: vertical; min-height: 150px; font-family: inherit; }
+    button { width: 100%; padding: 18px; background: linear-gradient(135deg, #4CAF50, #45a049); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+    button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(76,175,80,0.4); }
+    button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+    .loading { text-align: center; color: #666; font-style: italic; }
+    .back { display: inline-block; margin-top: 20px; color: #2196F3; text-decoration: none; font-weight: bold; padding: 12px 24px; border: 2px solid #2196F3; border-radius: 25px; transition: all 0.3s; }
+    .back:hover { background: #2196F3; color: white; }
+    .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 10px; margin-top: 20px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>❓ Ask a Subject Doubt</h1>
+    <form id="doubtForm">
+      <label for="subject">Select Subject:</label>
+      <select id="subject" required>
+        <option value="">Choose Branch → Semester → Subject</option>
+        <option value="Mathematics">CSE Sem 1: Mathematics</option>
+        <option value="Physics">CSE Sem 1: Physics</option>
+        <option value="Chemistry">CSE Sem 1: Chemistry</option>
+        <option value="Web Development">CSE Sem 3: Web Development</option>
+        <option value="Data Structures">CSE Sem 3: Data Structures</option>
+        <option value="Database Systems">CSE Sem 4: Database Systems</option>
+        <option value="Operating Systems">CSE Sem 4: Operating Systems</option>
+      </select>
+
+      <label for="question">Your Doubt (Anonymous):</label>
+      <textarea id="question" placeholder="Describe your doubt clearly... Faculty will see only 'Anonymous Student'" required></textarea>
+
+      <label for="image">Attach Image (Optional):</label>
+      <input type="file" id="image" accept="image/*">
+
+      <button type="submit" id="submitBtn">🚀 Post Anonymous Doubt</button>
+    </form>
+
+    <div id="successMsg" class="success">Doubt posted successfully! Redirecting to doubts list...</div>
+    <div id="loadingMsg" class="loading" style="display:none;">Posting to faculty... (Render may take 30s first time)</div>
+
+    <a href="student-dashboard.html" class="back">← Back to Dashboard</a>
+  </div>
+
+  <script>
+    document.getElementById('doubtForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const subject = document.getElementById('subject').value;
+      const question = document.getElementById('question').value;
+      const submitBtn = document.getElementById('submitBtn');
+      const loadingMsg = document.getElementById('loadingMsg');
+      const successMsg = document.getElementById('successMsg');
+
+      if (!subject || !question) return alert('Please fill subject & question');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Posting...';
+      loadingMsg.style.display = 'block';
+
+      try {
+        // TODO: Replace with real Firebase UID after auth integration
+        const userUid = 'anonymous-student-' + Date.now(); // Temp for testing
+
+        const formData = {
+          title: `${subject} Doubt`,
+          description: question,
+          subject: subject,
+          createdBy: userUid
+        };
+
+        const res = await fetch('https://doubt-desk-backendd.onrender.com/api/doubts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        if (res.ok) {
+          successMsg.style.display = 'block';
+          setTimeout(() => window.location.href = 'doubts-list.html', 1500);
+        } else {
+          throw new Error('Backend error');
+        }
+      } catch (err) {
+        alert('Error: ' + err.message + '\nNote: Render free tier sleeps - retry in 30s');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🚀 Post Anonymous Doubt';
+        loadingMsg.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
