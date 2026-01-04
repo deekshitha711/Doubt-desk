@@ -52,23 +52,29 @@
   <p>Select your role to get started:</p>
   
   <div class="roles-container">
-    <div class="role-card" onclick="window.location.href='student-auth.html'">
+    <div class="role-card" onclick="goTo('student-auth.html')">
       <div class="role-icon">👨‍🎓</div>
       <h3>Student</h3>
       <p>Ask doubts anonymously<br>or get guidance from faculty</p>
     </div>
     
-    <div class="role-card" onclick="window.location.href='faculty-auth.html'">
+    <div class="role-card" onclick="goTo('faculty-auth.html')">
       <div class="role-icon">👨‍🏫</div>
       <h3>Faculty</h3>
       <p>Answer doubts in your subjects<br>Help students succeed</p>
     </div>
     
-    <div class="role-card" onclick="window.location.href='admin-auth.html'">
+    <div class="role-card" onclick="goTo('admin-auth.html')">
       <div class="role-icon">🛡️</div>
       <h3>Admin</h3>
       <p>View all doubts & answers<br>Full platform control</p>
     </div>
   </div>
+
+  <script>
+    function goTo(page) {
+      window.location.href = page;
+    }
+  </script>
 </body>
 </html>
