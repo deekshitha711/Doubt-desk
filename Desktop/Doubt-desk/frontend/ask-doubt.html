@@ -4,37 +4,243 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ask Doubt - Doubt Desk</title>
-  <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #10b981, #34d399); min-height: 100vh; padding: 2rem; } .container { max-width: 600px; margin: 0 auto; background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius: 30px; padding: 3rem; border: 1px solid rgba(255,255,255,0.3); } h1 { text-align: center; color: white; margin-bottom: 2rem; font-size: 2.5rem; } form { display: flex; flex-direction: column; gap: 1.5rem; } input, select, textarea { padding: 1.2rem; border: none; border-radius: 15px; font-size: 1.1rem; background: rgba(255,255,255,0.9); } textarea { resize: vertical; min-height: 150px; } .btn { padding: 1.2rem; background: white; color: #10b981; font-weight: 700; border-radius: 15px; cursor: pointer; transition: all 0.3s; } .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); } #statusMsg { text-align: center; margin-top: 1rem; font-weight: 600; }</style>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 30%, #c084fc 70%, #e879f9 100%); 
+      min-height: 100vh; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 2rem; 
+    }
+    
+    .form-container {
+      background: rgba(255, 255, 255, 0.95); 
+      padding: 3rem; 
+      border-radius: 24px; 
+      box-shadow: 0 25px 60px rgba(139, 92, 246, 0.25); 
+      max-width: 500px; 
+      width: 100%; 
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .header {
+      text-align: center; 
+      margin-bottom: 2.5rem; 
+    }
+    
+    .logo {
+      background: linear-gradient(45deg, #8b5cf6, #a78bfa); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      font-size: 2.2rem; 
+      font-weight: 800; 
+      margin-bottom: 0.5rem;
+    }
+    
+    .subtitle {
+      color: #6b7280; 
+      font-size: 1.1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.8rem; 
+      position: relative;
+    }
+    
+    label {
+      display: block; 
+      margin-bottom: 0.5rem; 
+      font-weight: 600; 
+      color: #374151; 
+      font-size: 0.95rem;
+    }
+    
+    select, input, textarea {
+      width: 100%; 
+      padding: 1rem 1.2rem; 
+      border: 2px solid #e5e7eb; 
+      border-radius: 12px; 
+      font-size: 1rem; 
+      transition: all 0.3s ease; 
+      background: white;
+    }
+    
+    select:focus, input:focus, textarea:focus {
+      outline: none; 
+      border-color: #8b5cf6; 
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+    
+    textarea {
+      resize: vertical; 
+      min-height: 140px; 
+      font-family: inherit;
+    }
+    
+    .submit-btn {
+      width: 100%; 
+      padding: 1.2rem; 
+      background: linear-gradient(45deg, #8b5cf6, #a78bfa); 
+      color: white; 
+      border: none; 
+      border-radius: 12px; 
+      font-size: 1.1rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: all 0.3s ease; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-2px); 
+      box-shadow: 0 15px 35px rgba(139,92,246,0.4);
+    }
+    
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    
+    .success-message {
+      background: linear-gradient(135deg, #10b981, #059669); 
+      color: white; 
+      padding: 1.5rem; 
+      border-radius: 12px; 
+      text-align: center; 
+      margin-top: 1rem; 
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media (max-width: 768px) {
+      .form-container { padding: 2rem 1.5rem; margin: 1rem; }
+      .logo { font-size: 1.8rem; }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📝 Ask New Doubt</h1>
+  <div class="form-container">
+    <div class="header">
+      <h1 class="logo">Doubt Desk</h1>
+      <p class="subtitle">Ask Your Academic Doubt</p>
+    </div>
+    
     <form id="doubtForm">
-      <!-- Replace the <select> section in ask-doubt.html -->
-<select id="subject" required>
-  <option value="">Select Subject</option>
-  <option value="Java">Java</option>
-  <option value="Python">Python</option>
-  <option value="DBMS">DBMS</option>  <!-- ADD THIS -->
-  <option value="DS Algo">Data Structures</option>
-</select>
-
-      <textarea id="question" placeholder="Describe your doubt clearly..." required></textarea>
-      <button type="submit" class="btn">Post My Doubt</button>
+      <div class="form-group">
+        <label for="semester">Semester *</label>
+        <select id="semester" required>
+          <option value="">Select Semester</option>
+          <option value="Sem1">Sem 1</option>
+          <option value="Sem2">Sem 2</option>
+          <option value="Sem3">Sem 3</option>
+          <option value="Sem4">Sem 4</option>
+          <option value="Sem5">Sem 5</option>
+          <option value="Sem6">Sem 6</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="subject">Subject *</label>
+        <select id="subject" required disabled>
+          <option value="">Select Subject (after semester)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="title">Doubt Title *</label>
+        <input type="text" id="title" placeholder="e.g. Array rotation in Java" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Detailed Description *</label>
+        <textarea id="description" placeholder="Explain your doubt in detail... Include code snippets if needed." required></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn">🚀 Post Doubt</button>
     </form>
-    <div id="statusMsg"></div>
+    
+    <div id="successMessage" class="success-message">
+      ✅ Doubt posted successfully! Check your dashboard.
+    </div>
   </div>
+
   <script>
-    document.getElementById('doubtForm').addEventListener('submit', (e) => {
+    // Dynamic subjects by semester - Engineering curriculum
+    const subjectsBySem = {
+      'Sem1': ['Chemistry', 'Math-I', 'Physics-I', 'Engg Drawing', 'C Programming'],
+      'Sem2': ['Math-II', 'Physics-II', 'Data Structures', 'Digital Logic', 'Python Basics'],
+      'Sem3': ['Java Programming', 'Algorithms', 'DBMS', 'Operating Systems', 'Computer Networks'],
+      'Sem4': ['Advanced Python', 'AI Introduction', 'Software Engineering', 'Compilers', 'Electives'],
+      'Sem5': ['Machine Learning', 'Cloud Computing', 'Big Data', 'Cyber Security', 'Projects'],
+      'Sem6': ['Advanced DBMS', 'Distributed Systems', 'IoT', 'Blockchain', 'Internship']
+    };
+
+    document.getElementById('semester').addEventListener('change', function() {
+      const sem = this.value;
+      const subjectSelect = document.getElementById('subject');
+      subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+      
+      if (sem && subjectsBySem[sem]) {
+        subjectsBySem[sem].forEach(sub => {
+          subjectSelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+        });
+        subjectSelect.disabled = false;
+      } else {
+        subjectSelect.disabled = true;
+      }
+    });
+
+    document.getElementById('doubtForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      
+      // Get CURRENT student from localStorage
       const studentData = JSON.parse(localStorage.getItem('studentData') || '{}');
-      const doubt = { id: Date.now(), studentId: studentData.studentId, subject: document.getElementById('subject').value, question: document.getElementById('question').value, status: 'pending', timestamp: new Date().toISOString() };
-      let allDoubts = JSON.parse(localStorage.getItem('allDoubts') || '[]');
+      
+      const doubt = {
+        id: Date.now(),
+        studentId: studentData.studentId,
+        sem: document.getElementById('semester').value,
+        subject: document.getElementById('subject').value,
+        title: document.getElementById('title').value,
+        description: document.getElementById('description').value,
+        status: 'pending',
+        timestamp: new Date().toISOString(),
+        facultyAnswer: null
+      };
+      
+      // 1. Add to GLOBAL doubts list (shared across all users)
+      const allDoubts = JSON.parse(localStorage.getItem('allDoubts') || '[]');
       allDoubts.push(doubt);
       localStorage.setItem('allDoubts', JSON.stringify(allDoubts));
-      window.dispatchEvent(new Event('storage'));  // Trigger sync[web:33]
-      document.getElementById('statusMsg').textContent = '✅ Doubt posted! Redirecting...';
-      setTimeout(() => window.location.href = 'student-dashboard.html', 1500);
+      
+      // 2. Update MY personal counters
+      studentData.totalDoubts = (studentData.totalDoubts || 0) + 1;
+      studentData.pendingDoubts = (studentData.pendingDoubts || 0) + 1;
+      localStorage.setItem('studentData', JSON.stringify(studentData));
+      
+      // Show success + redirect
+      const successMsg = document.getElementById('successMessage');
+      const form = document.getElementById('doubtForm');
+      successMsg.style.display = 'block';
+      form.style.display = 'none';
+      
+      // Trigger dashboard live update
+      window.dispatchEvent(new StorageEvent('storage', { key: 'allDoubts' }));
+      
+      setTimeout(() => {
+        window.location.href = 'student-dashboard.html';
+      }, 2000);
     });
   </script>
 </body>

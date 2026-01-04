@@ -3,77 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doubt Desk - Academic Help Platform</title>
+  <title>Doubt Desk</title>
   <style>
-    body { 
-      font-family: Arial, sans-serif; 
-      text-align: center; 
-      padding: 50px; 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      margin: 0;
-    }
-    h1 { 
-      font-size: 3em; 
-      margin-bottom: 20px; 
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    p { font-size: 1.2em; margin-bottom: 40px; }
-    .roles-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
+    .container { text-align: center; max-width: 600px; z-index: 10; }
+    h1 { font-size: 3.5rem; margin-bottom: 1rem; background: linear-gradient(45deg, #fff, #f8f8ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+    .subtitle { font-size: 1.2rem; opacity: 0.9; margin-bottom: 3rem; }
+    .roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
     .role-card { 
-      width: 250px; 
-      padding: 30px 20px; 
-      background: rgba(255,255,255,0.95);
-      border-radius: 20px; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      background: rgba(255,255,255,0.12); 
+      backdrop-filter: blur(25px); 
+      border: 1px solid rgba(255,255,255,0.2); 
+      border-radius: 24px; 
+      padding: 2.5rem 2rem; 
       cursor: pointer; 
-      transition: all 0.3s ease;
-      color: #333;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+      position: relative; 
+      overflow: hidden;
     }
-    .role-card:hover { 
-      transform: translateY(-10px) scale(1.05); 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-    .role-card h3 { 
-      font-size: 1.8em; 
-      margin-bottom: 15px; 
-      color: #1e3a8a;
-    }
-    .role-icon { font-size: 3em; margin-bottom: 10px; }
+    .role-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s; }
+    .role-card:hover::before { left: 100%; }
+    .role-card:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 30px 60px rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.4); }
+    .role-icon { font-size: 4.5rem; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
+    h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.8rem; }
+    p { font-size: 1.1rem; opacity: 0.85; margin-bottom: 1rem; }
+    @media (max-width: 768px) { .roles { grid-template-columns: 1fr; gap: 1.5rem; } }
   </style>
 </head>
 <body>
-  <h1>🚀 Doubt Desk</h1>
-  <p>Select your role to get started:</p>
-  
-  <div class="roles-container">
-    <div class="role-card" onclick="goTo('student-auth.html')">
-      <div class="role-icon">👨‍🎓</div>
-      <h3>Student</h3>
-      <p>Ask doubts anonymously<br>or get guidance from faculty</p>
-    </div>
-    
-    <div class="role-card" onclick="goTo('faculty-auth.html')">
-      <div class="role-icon">👨‍🏫</div>
-      <h3>Faculty</h3>
-      <p>Answer doubts in your subjects<br>Help students succeed</p>
-    </div>
-    
-    <div class="role-card" onclick="goTo('admin-auth.html')">
-      <div class="role-icon">🛡️</div>
-      <h3>Admin</h3>
-      <p>View all doubts & answers<br>Full platform control</p>
+  <div class="container">
+    <h1>Doubt Desk</h1>
+    <p class="subtitle">Instant doubt resolution for students, powered by expert faculty</p>
+    <div class="roles">
+      <div class="role-card" onclick="goToRole('student')">
+        <div class="role-icon">👨‍🎓</div>
+        <h2>Student Portal</h2>
+        <p>Ask doubts, track progress, get recommendations</p>
+      </div>
+      <div class="role-card" onclick="goToRole('faculty')">
+        <div class="role-icon">👨‍🏫</div>
+        <h2>Faculty Portal</h2>
+        <p>Priority queue + answer analytics</p>
+      </div>
+      <div class="role-card" onclick="goToRole('admin')">
+        <div class="role-icon">👨‍💼</div>
+        <h2>Admin Dashboard</h2>
+        <p>Full analytics + premium reports</p>
+      </div>
     </div>
   </div>
-
   <script>
-    function goTo(page) {
-      window.location.href = page;
+    function goToRole(role) {
+      window.location.href = `${role}-auth.html`;
     }
   </script>
 </body>

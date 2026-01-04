@@ -12,13 +12,8 @@
       min-height: 100vh; 
       color: #1f2937; 
     }
-   .header { 
-  position: relative;  /* ADD THIS LINE */
-  display: flex; 
-  justify-content: space-between; 
-  /* ... rest same */
-
-
+    .header { 
+      position: relative;
       background: rgba(255, 255, 255, 0.95); 
       padding: 1.5rem 2rem; 
       box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2); 
@@ -32,135 +27,50 @@
       -webkit-text-fill-color: transparent; 
       font-size: 1.8rem; 
     }
-    .user-info { 
-      display: flex; 
-      align-items: center; 
-      gap: 1rem; 
-    }
-    .user-info span { 
-      font-weight: 600; 
-      color: #8b5cf6; 
-    }
-    .container { 
-      max-width: 1400px; 
-      margin: 0 auto; 
-      padding: 2rem; 
-    }
-    .stats-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-      gap: 1.5rem; 
-      margin-bottom: 2rem; 
-    }
-    .stat-card { 
-      background: rgba(255, 255, 255, 0.95); 
-      padding: 1.5rem 2rem; 
-      border-radius: 16px; 
-      box-shadow: 0 15px 35px rgba(139, 92, 246, 0.15); 
-      text-align: center; 
-      border-left: 5px solid #8b5cf6; 
-    }
+    .user-info { display: flex; align-items: center; gap: 1rem; }
+    .user-info span { font-weight: 600; color: #8b5cf6; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+    
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .stat-card { background: rgba(255, 255, 255, 0.95); padding: 1.5rem 2rem; border-radius: 16px; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.15); text-align: center; border-left: 5px solid #8b5cf6; }
     .stat-number { font-size: 2.2rem; font-weight: bold; color: #8b5cf6; }
     .stat-label { color: #6b7280; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
-    .tabs { 
-      display: flex; 
-      gap: 1rem; 
-      margin-bottom: 2rem; 
-      background: rgba(255, 255, 255, 0.95); 
-      padding: 1rem 1.5rem; 
-      border-radius: 12px; 
-      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.1); 
-    }
-    .tab-btn { 
-      padding: 0.8rem 1.5rem; 
-      border: none; 
-      background: none; 
-      border-radius: 10px; 
-      font-weight: 600; 
-      cursor: pointer; 
-      transition: all 0.3s; 
-      color: #6b7280; 
-    }
-    .tab-btn.active { 
-      background: linear-gradient(45deg, #8b5cf6, #a78bfa); 
-      color: white; 
-      box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3); 
-    }
-    .doubts-section { 
-      background: rgba(255, 255, 255, 0.95); 
-      border-radius: 16px; 
-      padding: 2rem; 
-      box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15); 
-      min-height: 400px; 
-    }
-    .section-title { 
-      font-size: 1.5rem; 
-      font-weight: bold; 
-      margin-bottom: 1.5rem; 
-      color: #1f2937; 
-    }
-    .empty-state { 
-      text-align: center; 
-      padding: 3rem 2rem; 
-      color: #9ca3af; 
-    }
-    .empty-state svg { 
-      font-size: 4rem; 
-      margin-bottom: 1rem; 
-      opacity: 0.5; 
-    }
-    .doubts-grid { 
-      display: grid; 
-      gap: 1.2rem; 
-    }
-    .doubt-card { 
-      background: white; 
-      padding: 1.5rem; 
-      border-radius: 12px; 
-      border-left: 4px solid #8b5cf6; 
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08); 
-      transition: transform 0.2s; 
-    }
+    
+    .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; background: rgba(255, 255, 255, 0.95); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(139, 92, 246, 0.1); }
+    .tab-btn { padding: 0.8rem 1.5rem; border: none; background: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; color: #6b7280; }
+    .tab-btn.active { background: linear-gradient(45deg, #8b5cf6, #a78bfa); color: white; box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3); }
+    
+    .doubts-section { background: rgba(255, 255, 255, 0.95); border-radius: 16px; padding: 2rem; box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15); min-height: 400px; margin-bottom: 2rem; }
+    .section-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; color: #1f2937; }
+    
+    .id-badges { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .student-badge { background: #dbeafe; color: #1e40af; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    .faculty-answered { background: #d1fae5; color: #059669; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    .no-faculty { background: #f3f4f6; color: #6b7280; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; }
+    
+    .empty-state { text-align: center; padding: 3rem 2rem; color: #9ca3af; }
+    .doubts-grid { display: grid; gap: 1.2rem; }
+    .doubt-card { background: white; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #8b5cf6; box-shadow: 0 5px 20px rgba(0,0,0,0.08); transition: transform 0.2s; }
     .doubt-card:hover { transform: translateY(-2px); }
     .doubt-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; }
     .student-id { font-weight: bold; color: #8b5cf6; font-size: 1.1rem; }
-    .status { 
-      padding: 0.3rem 0.8rem; 
-      border-radius: 20px; 
-      font-size: 0.8rem; 
-      font-weight: 600; 
-    }
+    .status { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
     .status.pending { background: #fef3c7; color: #d97706; }
     .status.answered { background: #d1fae5; color: #059669; }
     .doubt-subject { font-weight: 600; color: #374151; margin-bottom: 0.5rem; }
-    .action-btns { display: flex; gap: 0.5rem; margin-top: 1rem; }
-    .action-btn { 
-      padding: 0.4rem 1rem; 
-      border: none; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      font-size: 0.85rem; 
-      font-weight: 500; 
-      transition: all 0.2s; 
-    }
+    .action-btns { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .action-btn { padding: 0.4rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 500; transition: all 0.2s; }
     .btn-view { background: #8b5cf6; color: white; }
     .btn-view:hover { background: #7c3aed; }
-    .logout-btn { 
-      background: linear-gradient(45deg, #ef4444, #dc2626); 
-      color: white; 
-      padding: 0.8rem 1.5rem; 
-      border: none; 
-      border-radius: 10px; 
-      cursor: pointer; 
-      font-weight: 600; 
-      margin-top: 2rem; 
-      transition: all 0.3s; 
-    }
+    
+    .logout-btn { background: linear-gradient(45deg, #ef4444, #dc2626); color: white; padding: 0.8rem 1.5rem; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; margin-top: 2rem; transition: all 0.3s; }
     .logout-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(239,68,68,0.4); }
+    
     @media (max-width: 768px) { 
       .container { padding: 1rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .tabs { flex-wrap: wrap; }
+      .id-badges { flex-direction: column; gap: 0.5rem; }
     }
   </style>
 </head>
@@ -170,7 +80,7 @@
       <h1>Doubt Desk</h1>
     </div>
     <div class="user-info">
-      <span id="adminName">🔥 Admin Panel</span>
+      <span id="adminName">Admin Panel</span>
       <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
   </div>
@@ -198,13 +108,9 @@
     </div>
 
     <div class="doubts-section">
-      <h2 class="section-title" id="sectionTitle">All Doubts (Real Student IDs)</h2>
+      <h2 class="section-title" id="sectionTitle">Student & Faculty ID Tracker</h2>
       <div id="doubtsContent">
-        <div class="empty-state">
-          <div>📭</div>
-          <h3>No doubts yet</h3>
-          <p>Student doubts will appear here automatically when posted.</p>
-        </div>
+        <!-- Dynamic content -->
       </div>
     </div>
   </div>
@@ -215,15 +121,13 @@
 
     // Load admin info
     const adminId = localStorage.getItem('adminId') || 'ADMIN001';
-    document.getElementById('adminName').textContent = `👑 Admin ${adminId}`;
+    document.getElementById('adminName').textContent = `Admin ${adminId}`;
 
-    function loadDoubts() {
-      // Load from SAME localStorage as student/faculty dashboards
+    function loadDashboard() {
       const storedDoubts = localStorage.getItem('allDoubts');
       allDoubts = storedDoubts ? JSON.parse(storedDoubts) : [];
-      
       updateStats();
-      displayDoubts(currentTab);
+      displayContent(currentTab);
     }
 
     function updateStats() {
@@ -236,10 +140,10 @@
       document.getElementById('answeredDoubts').textContent = answered;
     }
 
-    function displayDoubts(tab) {
+    function displayContent(tab) {
       const container = document.getElementById('doubtsContent');
+      
       let filteredDoubts = allDoubts;
-
       if (tab === 'pending') filteredDoubts = allDoubts.filter(d => d.status === 'pending');
       if (tab === 'answered') filteredDoubts = allDoubts.filter(d => d.status === 'answered');
 
@@ -247,8 +151,8 @@
         container.innerHTML = `
           <div class="empty-state">
             <div>${tab === 'pending' ? '⏳' : '✅'}</div>
-            <h3>${tab === 'pending' ? 'No pending doubts' : 'No answered doubts'}</h3>
-            <p>${tab === 'pending' ? 'Check back later for new student questions.' : 'No doubts answered yet.'}</p>
+            <h3>No ${tab} doubts</h3>
+            <p>Check back later for updates.</p>
           </div>
         `;
         return;
@@ -259,11 +163,16 @@
           ${filteredDoubts.map(doubt => `
             <div class="doubt-card">
               <div class="doubt-header">
-                <div class="student-id">SID${doubt.studentId}</div>
+                <div class="student-id">${doubt.studentId || 'SIDXXX'}</div>
                 <span class="status ${doubt.status}">${doubt.status.toUpperCase()}</span>
               </div>
+              <div class="id-badges">
+                <span class="student-badge">👤 Student ID: ${doubt.studentId || 'N/A'}</span>
+                ${!doubt.facultyId ? '<span class="no-faculty">No Faculty Assigned</span>' : ''}
+                ${doubt.status === 'answered' ? `<span class="faculty-answered">✅ Answered by Faculty ${doubt.facultyId}</span>` : ''}
+              </div>
               <div class="doubt-subject">${doubt.subject}</div>
-              <p>${doubt.question}</p>
+              <p>${doubt.question || doubt.description}</p>
               <div class="action-btns">
                 <button class="action-btn btn-view" onclick="viewDoubt('${doubt.id}')">View Details</button>
               </div>
@@ -278,15 +187,21 @@
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
       
-      document.getElementById('sectionTitle').textContent = 
-        tab === 'all' ? 'All Doubts (Real Student IDs)' :
-        tab === 'pending' ? 'Pending Doubts' : 'Answered Doubts';
-      
-      displayDoubts(tab);
+      const titles = {
+        'all': 'Student & Faculty ID Tracker',
+        'pending': 'Pending Doubts', 
+        'answered': 'Answered Doubts'
+      };
+      document.getElementById('sectionTitle').textContent = titles[tab];
+      displayContent(tab);
     }
 
     function viewDoubt(doubtId) {
-      window.location.href = `doubt-detail.html?id=${doubtId}`;
+      const doubt = allDoubts.find(d => d.id === doubtId);
+      if (doubt) {
+        localStorage.setItem('currentDoubt', JSON.stringify(doubt));
+        window.open('doubt-detail.html', '_blank');
+      }
     }
 
     function logout() {
@@ -295,9 +210,13 @@
       window.location.href = 'index.html';
     }
 
-    // Load on start + auto-refresh every 10s
-    loadDoubts();
-    setInterval(loadDoubts, 10000);
+    function forceRefresh() {
+      loadDashboard();
+    }
+    
+    loadDashboard();
+    setInterval(forceRefresh, 2000);
+    window.addEventListener('storage', forceRefresh);
   </script>
 </body>
 </html>

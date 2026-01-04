@@ -5,172 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Login - Doubt Desk</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { 
-      font-family: 'Inter', sans-serif; 
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); 
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; 
     }
-    .auth-container { 
-      background: rgba(255,255,255,0.95); padding: 3rem 2.5rem; border-radius: 20px; 
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%; max-width: 440px; 
-      border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden;
+    .login-container { 
+      background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); padding: 40px; 
+      border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; 
+      min-width: 350px;
     }
-    .auth-container::before { 
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; 
-      background: linear-gradient(90deg, #10b981, #34d399); border-radius: 20px 20px 0 0;
-    }
-    .logo { text-align: center; margin-bottom: 2.5rem; }
-    .logo h1 { color: #1e3a8a; font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .logo p { color: #64748b; font-size: 1.1rem; font-weight: 500; }
-    .role-badge { 
-      background: linear-gradient(135deg, #10b981, #34d399); color: white; padding: 0.75rem 2rem; 
-      border-radius: 50px; font-weight: 600; margin-bottom: 2rem; text-transform: uppercase; 
-      letter-spacing: 0.5px; font-size: 0.85rem; display: inline-block; box-shadow: 0 4px 12px rgba(16,185,129,0.3);
-    }
-    .form-group { margin-bottom: 2rem; }
-    label { display: block; margin-bottom: 0.75rem; color: #374151; font-weight: 600; font-size: 0.95rem; }
-    input, select { 
-      width: 100%; padding: 1.2rem 1.25rem; border: 2px solid #e5e7eb; border-radius: 12px; 
-      font-size: 1rem; font-weight: 500; transition: all 0.2s ease; background: #fafafa;
-    }
-    input:focus, select:focus { outline: none; border-color: #10b981; background: white; 
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.1); transform: translateY(-1px);
-    }
-    .submit-btn { 
-      width: 100%; padding: 1.25rem; background: linear-gradient(135deg, #10b981, #34d399); 
-      color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; 
-      cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(16,185,129,0.3);
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16,185,129,0.4); }
-    .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-    .step-indicator { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
-    .step { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-      font-weight: 700; color: white; font-size: 0.9rem; }
-    .step.active { background: linear-gradient(135deg, #10b981, #34d399); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
-    .step.completed { background: #6b7280; }
-    .back-link { text-align: center; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; }
-    .back-link a { color: #10b981; text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; 
-      border: 1px solid #d1fae5; border-radius: 8px; display: inline-block; transition: all 0.2s ease; }
-    .back-link a:hover { background: rgba(16,185,129,0.08); transform: translateY(-1px); }
-    @media (max-width: 480px) { .auth-container { margin: 1rem; padding: 2.5rem 2rem; } }
+    h1 { font-size: 2.2em; margin-bottom: 30px; }
+    input { width: 100%; padding: 15px; margin: 15px 0; border: none; border-radius: 12px; 
+            font-size: 1.1em; background: rgba(255,255,255,0.9); }
+    button { width: 100%; padding: 15px; background: #667eea; color: white; border: none; 
+             border-radius: 12px; font-size: 1.2em; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #5a67d8; }
+    .back-btn { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.2); 
+                color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; }
+    #errorMsg { color: #ff6b6b; margin-top: 10px; display: none; }
+    @media (max-width: 480px) { .login-container { margin: 20px; padding: 30px 20px; } }
   </style>
 </head>
 <body>
-  <div class="auth-container">
-    <div class="logo">
-      <h1>Doubt Desk</h1>
-      <p>Student Portal</p>
-      <div class="role-badge">Student Access</div>
-    </div>
-
-    <div class="step-indicator">
-      <div class="step active" id="step1">1</div>
-      <div class="step" id="step2">2</div>
-    </div>
-
-    <!-- Step 1: School Code -->
-    <div id="schoolStep">
-      <div class="form-group">
-        <label for="schoolCode">School Code</label>
-        <input type="text" id="schoolCode" placeholder="Enter school code" maxlength="10" required>
-      </div>
-      <button class="submit-btn" onclick="verifySchool()">Verify School</button>
-    </div>
-
-    <!-- Step 2: Student Details -->
-    <form id="studentForm" style="display: none;">
-      <div class="form-group">
-        <label for="studentId">Student ID</label>
-        <input type="text" id="studentId" placeholder="SID001" required>
-      </div>
-      <div class="form-group">
-        <label for="branch">Branch</label>
-        <select id="branch" required>
-          <option value="">Select branch</option>
-          <option value="CSE">Computer Science</option>
-          <option value="ECE">Electronics</option>
-          <option value="ME">Mechanical</option>
-          <option value="Chem">Chemical</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="sem">Semester</label>
-        <select id="sem" required>
-          <option value="">Select semester</option>
-          <option value="Sem 1">Semester 1</option>
-          <option value="Sem 2">Semester 2</option>
-          <option value="Sem 3">Semester 3</option>
-          <option value="Sem 4">Semester 4</option>
-          <option value="Sem 5">Semester 5</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="studentClass">Class/Section</label>
-        <select id="studentClass" required>
-          <option value="">Select section</option>
-          <option value="A">Section A</option>
-          <option value="B">Section B</option>
-          <option value="C">Section C</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter password" required>
-      </div>
-      <button type="submit" class="submit-btn" id="loginBtn">Enter Dashboard</button>
+  <a href="index.html" class="back-btn">← Back to Home</a>
+  <div class="login-container">
+    <h1>🔥 Student Login</h1>
+    <form id="studentLoginForm">
+      <input type="text" id="studentId" placeholder="SID001, SID999, SID777..." maxlength="6" required>
+      <input type="password" id="password" placeholder="" required>
+      <button type="submit">🚀 Enter Dashboard</button>
     </form>
-
-    <div class="back-link">
-      <a href="index.html">← Back to Role Selection</a>
-    </div>
+    <div id="errorMsg">Invalid Student ID or Password!</div>
+    <p style="margin-top: 20px; opacity: 0.8;">Any SIDxxx + student123 works! (Sem1-6 auto-assigned)</p>
   </div>
 
   <script>
-    const VALID_SCHOOL = 'VIZ2024';
+    // UNLIMITED STUDENTS - Auto generate ANY SIDxxx
+    const PASSWORD = 'student123';
     
-    function verifySchool() {
-      const school = document.getElementById('schoolCode').value.trim().toUpperCase();
-      if (school === VALID_SCHOOL) {
-        document.getElementById('step1').className = 'step completed';
-        document.getElementById('step2').className = 'step active';
-        document.getElementById('schoolStep').style.display = 'none';
-        document.getElementById('studentForm').style.display = 'block';
-      } else {
-        alert('Invalid school code!');
-      }
+    // Auto-assign sem/branch/subjects based on SID last digit (perfect distribution)
+    function generateStudentProfile(studentId) {
+      const lastDigit = parseInt(studentId.slice(-1)) || 1;
+      const semMap = {1:'Sem1', 2:'Sem2', 3:'Sem3', 4:'Sem4', 5:'Sem5', 6:'Sem6'};
+      const branchMap = {1:'CSE', 2:'CSE', 3:'CSE', 4:'IT', 5:'CSE', 6:'IT', 0:'Mech'};
+      const names = ['Radha', 'Priya', 'Anil', 'Vikram', 'Sneha', 'Ravi', 'Meena', 'Kiran'];
+      
+      return {
+        studentId: studentId.toUpperCase(),
+        name: names[lastDigit % names.length] || 'Student',
+        sem: semMap[lastDigit] || 'Sem1',
+        branch: branchMap[lastDigit] || 'CSE',
+        password: PASSWORD,
+        totalDoubts: 0,      // Added for dashboard counters
+        pendingDoubts: 0,    // Added for dashboard counters
+        resolvedDoubts: 0    // Added for dashboard counters
+      };
     }
 
-    document.getElementById('studentForm').addEventListener('submit', async (e) => {
+    document.getElementById('studentLoginForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const studentId = document.getElementById('studentId').value.trim().toUpperCase();
-      const branch = document.getElementById('branch').value;
-      const sem = document.getElementById('sem').value;
-      const studentClass = document.getElementById('studentClass').value;
-      const password = document.getElementById('password').value;
+      const id = document.getElementById('studentId').value.trim();
+      const pw = document.getElementById('password').value;
       
-      const btn = document.getElementById('loginBtn');
-      btn.disabled = true;
-      btn.innerHTML = 'Signing in...';
+      if (!id.startsWith('SID') || id.length !== 6 || !/^\d{3}$/.test(id.slice(3))) {
+        document.getElementById('errorMsg').style.display = 'block';
+        return;
+      }
       
-      await new Promise(r => setTimeout(r, 1200));
-      
-      if (password === 'student123') {
-        localStorage.setItem('userRole', 'student');
-        localStorage.setItem('studentData', JSON.stringify({
-          school: VALID_SCHOOL,
-          studentId,
-          branch,
-          sem,
-          class: studentClass
-        }));
+      if (pw === PASSWORD) {
+        // Auto-generate UNLIMITED profile with counters
+        const profile = generateStudentProfile(id);
+        localStorage.setItem('studentData', JSON.stringify(profile));
         window.location.href = 'student-dashboard.html';
       } else {
-        alert('Incorrect password!');
-        btn.disabled = false;
-        btn.innerHTML = 'Enter Dashboard';
+        document.getElementById('errorMsg').style.display = 'block';
       }
     });
   </script>

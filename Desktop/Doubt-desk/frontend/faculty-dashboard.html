@@ -11,242 +11,325 @@
       font-family: 'Inter', sans-serif; 
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
       min-height: 100vh; 
-      padding: 2rem; 
-      color: white;
+      color: white; 
+      padding: 2rem;
     }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .header { 
-      text-align: center; 
-      margin-bottom: 3rem; 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      flex-wrap: wrap; 
-      gap: 1rem;
+    .glass-card { 
+      background: rgba(255,255,255,0.12); 
+      backdrop-filter: blur(25px); 
+      border: 1px solid rgba(255,255,255,0.2); 
+      border-radius: 24px; 
+      padding: 2.5rem; 
+      margin-bottom: 2rem; 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
     }
-    .welcome { 
-      font-size: 2.5rem; 
-      font-weight: 700; 
-      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-    .stat-card {
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s;
-    }
-    .stat-card:hover { transform: translateY(-5px); }
-    .stat-number { font-size: 2.5rem; font-weight: 800; color: #10b981; }
-    .stat-label { font-size: 1rem; opacity: 0.9; margin-top: 0.5rem; }
-    .doubts-section {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 2.5rem;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-    .section-title {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .doubts-list { 
+    .stats-grid { 
       display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
       gap: 1.5rem; 
-      max-height: 600px;
-      overflow-y: auto;
+      margin: 2rem 0; 
+    }
+    .stat-box { 
+      text-align: center; 
+      padding: 1rem; 
+      background: rgba(255,255,255,0.08); 
+      border-radius: 16px; 
+    }
+    .stat-box h3 { 
+      font-size: 2.5rem; 
+      font-weight: 800; 
+      margin-bottom: 0.5rem; 
+      background: linear-gradient(45deg, #fff, #f0f0f0); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+    }
+    .stat-box p { font-size: 1rem; opacity: 0.9; }
+    .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .faculty-subjects { 
+      background: rgba(255,255,255,0.15); 
+      padding: 1rem 1.5rem; 
+      border-radius: 16px; 
+      font-size: 0.95rem; 
+      opacity: 0.9;
+    }
+    .subject-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .subject-tab {
+      background: rgba(255,255,255,0.2);
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      user-select: none;
+    }
+    .subject-tab.active {
+      background: rgba(255,255,255,0.4);
+      border-color: #00ff88;
+      box-shadow: 0 5px 15px rgba(0,255,136,0.3);
+    }
+    .priority-queue { 
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52); 
+      border-radius: 20px; 
+      padding: 2rem; 
+      margin-top: 2rem; 
+    }
+    .priority-item { 
+      background: rgba(255,255,255,0.15); 
+      padding: 1.2rem; 
+      margin-bottom: 1rem; 
+      border-radius: 16px; 
+      border-left: 4px solid #ffd700; 
+      cursor: pointer; 
+      transition: all 0.3s; 
+    }
+    .priority-item:hover { 
+      transform: translateX(10px); 
+      box-shadow: 0 10px 25px rgba(255,107,107,0.4); 
+    }
+    .doubts-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+      gap: 1.5rem; 
+      margin-top: 2rem; 
     }
     .doubt-card { 
-      background: rgba(255,255,255,0.12); 
-      backdrop-filter: blur(15px); 
-      padding: 2rem; 
-      border-radius: 20px; 
-      border: 1px solid rgba(255,255,255,0.25); 
+      background: rgba(255,255,255,0.1); 
+      padding: 1.5rem; 
+      border-radius: 16px; 
+      border-left: 4px solid #00ff88; 
+      cursor: pointer; 
       transition: all 0.3s; 
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    .doubt-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, #10b981, #34d399);
     }
     .doubt-card:hover { 
-      transform: translateY(-8px); 
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
-      border-color: rgba(16,185,129,0.5);
+      transform: translateY(-5px); 
+      box-shadow: 0 10px 25px rgba(0,255,136,0.3); 
     }
-    .doubt-header { 
-      font-weight: 700; 
-      font-size: 1.25rem; 
-      margin-bottom: 1rem; 
-      line-height: 1.5;
+    .answer-btn { 
+      background: linear-gradient(45deg, #00ff88, #00cc6a); 
+      border: none; 
+      color: white; 
+      padding: 0.8rem 1.5rem; 
+      border-radius: 25px; 
+      cursor: pointer; 
+      font-weight: 600; 
+      margin-top: 0.5rem; 
+      transition: transform 0.2s; 
     }
-    .doubt-meta { 
-      opacity: 0.85; 
-      font-size: 0.95rem; 
-      display: flex; 
-      gap: 1.5rem; 
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
+    .answer-btn:hover { transform: scale(1.05); }
+    .status-badge { 
+      padding: 0.3rem 0.8rem; 
+      border-radius: 12px; 
+      font-size: 0.8rem; 
+      font-weight: 600; 
+      margin-left: 0.5rem; 
+      background: rgba(255,255,255,0.2);
     }
-    .status-badge {
-      background: rgba(16,185,129,0.2);
-      color: #10b981;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    .back-btn, .logout-btn {
-      padding: 1rem 2rem;
-      background: rgba(255,255,255,0.15);
-      color: white;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 600;
-      border: 2px solid rgba(255,255,255,0.3);
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .back-btn:hover, .logout-btn:hover {
-      background: rgba(255,255,255,0.25);
-      border-color: rgba(255,255,255,0.5);
-      transform: translateY(-2px);
-    }
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: rgba(255,255,255,0.7);
-    }
-    .empty-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
-    @media (max-width: 768px) {
-      .header { flex-direction: column; text-align: center; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .status-urgent { background: rgba(255,107,107,0.3); color: #fff; }
+    @media (max-width: 768px) { 
+      .stats-grid { grid-template-columns: 1fr; } 
+      body { padding: 1rem; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1 class="welcome" id="facultyWelcome">Faculty Dashboard</h1>
+  <div class="glass-card">
+    <div class="header-flex">
       <div>
-        <a href="index.html" class="back-btn">← Back</a>
-        <button class="logout-btn" onclick="localStorage.clear(); window.location.href='index.html'">Logout</button>
+        <h1 id="facultyWelcome">Welcome, Faculty!</h1>
+        <p id="subjectInfo">Loading...</p>
+        <div id="facultySubjectsList" class="faculty-subjects" style="display:none;"></div>
+        <div id="subjectTabs" class="subject-tabs" style="display:none;"></div>
       </div>
+      <button class="answer-btn" onclick="refreshNow()" style="font-size: 0.9rem;">🔄 Refresh Now</button>
     </div>
-
+    
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-number" id="totalDoubts">0</div>
-        <div class="stat-label">Total Doubts</div>
+      <div class="stat-box">
+        <h3 id="pendingCount">0</h3>
+        <p>Pending Doubts</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-number" id="pendingDoubts">0</div>
-        <div class="stat-label">Pending</div>
+      <div class="stat-box">
+        <h3 id="totalHandled">0</h3>
+        <p>Total Handled</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-number" id="answeredDoubts">0</div>
-        <div class="stat-label">Answered</div>
+      <div class="stat-box">
+        <h3 id="todayCount">0</h3>
+        <p>Today's New</p>
       </div>
     </div>
 
-    <div class="doubts-section">
-      <h2 class="section-title">📋 Pending Doubts <span id="liveCount">(0)</span></h2>
-      <div id="doubtsContainer" class="doubts-list">
-        <div class="empty-state">
-          <div class="empty-icon">📭</div>
-          <h3>No pending doubts right now</h3>
-          <p>Student doubts for your subject will appear here automatically</p>
-        </div>
+    <!-- PRIORITY QUEUE - TOP 5 OLDEST PENDING -->
+    <div class="priority-queue glass-card">
+      <h3>🔥 Priority Queue (Oldest First)</h3>
+      <div id="priorityDoubtsList">
+        <div style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6);">Loading pending doubts...</div>
+      </div>
+    </div>
+
+    <!-- ALL SUBJECT DOUBTS -->
+    <div class="glass-card">
+      <h3>All Doubts (<span id="allCount">0</span>)</h3>
+      <div class="doubts-grid" id="doubtsContainer">
+        <div style="text-align:center;padding:3rem;color:rgba(255,255,255,0.5);">No pending doubts in your subjects</div>
       </div>
     </div>
   </div>
 
   <script>
-    const facultyData = JSON.parse(localStorage.getItem('facultyData') || '{}');
-    document.getElementById('facultyWelcome').textContent = `Welcome, ${facultyData.name || 'Faculty'}!`;
+    // 🎯 COMPLETE 12 FACULTY → 30 SUBJECTS MAPPING (6 Sem × 5 Subjects)
+    const facultySubjectsMap = {
+      'FAC001': ['C Programming', 'Python Basics', 'Java Programming', 'Advanced Python'],
+      'FAC002': ['Data Structures', 'Algorithms', 'Discrete Math'],
+      'FAC003': ['DBMS', 'SQL/PLSQL'],
+      'FAC004': ['Operating Systems', 'Computer Networks', 'Compiler Design'],
+      'FAC005': ['Physics-I', 'Physics-II', 'Electronics'],
+      'FAC006': ['Math-I', 'Math-II', 'Digital Logic'],
+      'FAC007': ['OOP', 'Software Engineering'],
+      'FAC008': ['Machine Learning', 'AI'],
+      'FAC009': ['Cloud Computing', 'DevOps'],
+      'FAC010': ['Cyber Security'],
+      'FAC011': ['Web Tech', 'HTML/CSS/JS', 'Big Data'],
+      'FAC012': ['Project Management', 'Advanced DBMS', 'Distributed Systems', 'Advanced Networks', 'Parallel Computing', 'AI/ML Advanced', 'Electives Sem1-6']
+    };
 
-   <!-- Replace subjects object in faculty-dashboard.html script -->
-const subjects = { 
-  'FAC001': 'Java', 
-  'FAC002': 'Python', 
-  'FAC003': 'Physics', 
-  'FAC004': 'Chemistry', 
-  'FAC005': 'English',
-  'FAC006': 'DBMS'  <!-- ADD THIS -->
-};
+    const subjectFacultyMap = {};
+    Object.entries(facultySubjectsMap).forEach(([faculty, subjects]) => {
+      subjects.forEach(subject => {
+        subjectFacultyMap[subject] = faculty;
+      });
+    });
 
+    let currentActiveTab = 'all';
 
-    function updateStats() {
-      const allDoubts = JSON.parse(localStorage.getItem('allDoubts') || '[]');
-      const mySubject = subjects[facultyData.facultyId] || 'Java';
-      const subjectDoubts = allDoubts.filter(d => d.subject === mySubject);
-      
-      document.getElementById('totalDoubts').textContent = subjectDoubts.length;
-      document.getElementById('pendingDoubts').textContent = subjectDoubts.filter(d => d.status === 'pending').length;
-      document.getElementById('answeredDoubts').textContent = subjectDoubts.filter(d => d.status === 'resolved').length;
-      document.getElementById('liveCount').textContent = `(${subjectDoubts.filter(d => d.status === 'pending').length})`;
-    }
+    function loadFacultyDashboard() {
+      try {
+        const facultyData = JSON.parse(localStorage.getItem('facultyData') || '{}');
+        const facultyId = facultyData.facultyId || 'FAC001';
+        const facultyName = facultyData.name || `Prof. ${facultyId}`;
+        
+        document.getElementById('facultyWelcome').textContent = `Welcome, ${facultyName}!`;
+        
+        const mySubjects = facultySubjectsMap[facultyId] || ['Java Programming'];
+        document.getElementById('subjectInfo').textContent = `${mySubjects.length} Subjects Active`;
+        
+        const subjectsList = document.getElementById('facultySubjectsList');
+        subjectsList.innerHTML = `📚 ${mySubjects.join(', ')}`;
+        subjectsList.style.display = 'block';
 
-    function loadFacultyDoubts() {
-      const allDoubts = JSON.parse(localStorage.getItem('allDoubts') || '[]');
-      const mySubject = subjects[facultyData.facultyId] || 'Java';
-      const pendingDoubts = allDoubts.filter(d => d.subject === mySubject && d.status === 'pending');
-      
-      const container = document.getElementById('doubtsContainer');
-      updateStats();
-      
-      if (pendingDoubts.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">📭</div>
-            <h3>No pending doubts right now</h3>
-            <p>Student doubts for your subject will appear here automatically<br><strong>Refresh every 5s</strong></p>
+        // SUBJECT TABS: "All" + individual subjects
+        const tabsContainer = document.getElementById('subjectTabs');
+        let tabsHtml = `
+          <div class="subject-tab ${currentActiveTab === 'all' ? 'active' : ''}" 
+               onclick="switchSubjectTab(event, 'all')">
+            All Subjects
           </div>
         `;
-        return;
+        tabsHtml += mySubjects.map(subject => 
+          `<div class="subject-tab ${currentActiveTab === subject ? 'active' : ''}"
+                onclick="switchSubjectTab(event, '${subject}')">
+              ${subject}
+           </div>`
+        ).join('');
+        tabsContainer.innerHTML = tabsHtml;
+        tabsContainer.style.display = 'block';
+
+        const allDoubts = JSON.parse(localStorage.getItem('allDoubts') || '[]');
+        
+        // ✅ STEP 1: Only this faculty's subjects
+        const myDoubts = allDoubts.filter(doubt => mySubjects.includes(doubt.subject));
+        
+        // ✅ STEP 2: Apply tab filter
+        const filteredDoubts = currentActiveTab === 'all' 
+          ? myDoubts
+          : myDoubts.filter(doubt => doubt.subject === currentActiveTab);
+        
+        // ✅ STEP 3: Status-based counts (CORRECTED)
+        const pendingDoubts = filteredDoubts.filter(d => d.status === 'pending');
+        const handledDoubts = filteredDoubts.filter(d => d.status !== 'pending');
+        
+        // ✅ STEP 4: Today's new pending
+        const todayStr = new Date().toDateString();
+        const todaysNewPending = pendingDoubts.filter(d => 
+          new Date(d.timestamp).toDateString() === todayStr
+        );
+
+        // ✅ CORRECT COUNTS
+        document.getElementById('pendingCount').textContent = pendingDoubts.length;
+        document.getElementById('totalHandled').textContent = handledDoubts.length;
+        document.getElementById('todayCount').textContent = todaysNewPending.length;
+        document.getElementById('allCount').textContent = pendingDoubts.length;
+
+        // PRIORITY QUEUE - TOP 5 OLDEST PENDING (ANONYMOUS)
+        const priorityDoubts = [...pendingDoubts]
+          .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+          .slice(0, 5);
+        
+        const priorityContainer = document.getElementById('priorityDoubtsList');
+        if (priorityDoubts.length === 0) {
+          priorityContainer.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(255,255,255,0.6);">🎉 No pending doubts!</div>';
+        } else {
+          priorityContainer.innerHTML = priorityDoubts.map(doubt => `
+            <div class="priority-item" onclick="openDoubt(${doubt.id})">
+              <strong>${doubt.title}</strong>
+              <span class="status-badge status-urgent">${doubt.subject}</span><br>
+              <small>By Anonymous Student | ${new Date(doubt.timestamp).toLocaleString()}</small>
+              <br><em>${doubt.description.substring(0,80)}${doubt.description.length > 80 ? '...' : ''}</em>
+            </div>
+          `).join('');
+        }
+
+        // DOUBTS GRID - ONLY PENDING (ANONYMOUS)
+        const doubtsContainer = document.getElementById('doubtsContainer');
+        if (pendingDoubts.length === 0) {
+          doubtsContainer.innerHTML = '<div style="text-align:center;padding:3rem;color:rgba(255,255,255,0.5);">No pending doubts</div>';
+        } else {
+          doubtsContainer.innerHTML = pendingDoubts.map(doubt => `
+            <div class="doubt-card" onclick="openDoubt(${doubt.id})">
+              <h4>${doubt.title} <span class="status-badge">${doubt.subject}</span></h4>
+              <p style="opacity:0.8;margin:0.5rem 0;">${doubt.description.substring(0,100)}${doubt.description.length > 100 ? '...' : ''}</p>
+              <small>By Anonymous Student | ${new Date(doubt.timestamp).toLocaleDateString()}</small>
+              <br>
+              <button class="answer-btn" onclick="event.stopPropagation(); openDoubt(${doubt.id})">📝 Answer Now</button>
+            </div>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Dashboard error:', error);
       }
-      
-      container.innerHTML = pendingDoubts.map(doubt => `
-        <div class="doubt-card" onclick="openDoubtDetail(${doubt.id})">
-          <div class="doubt-header">${doubt.question}</div>
-          <div class="doubt-meta">
-            <span>👤 ${doubt.studentId}</span>
-            <span>📅 ${new Date(doubt.timestamp).toLocaleString()}</span>
-            <span class="status-badge">Pending</span>
-          </div>
-        </div>
-      `).join('');
     }
 
-    function openDoubtDetail(doubtId) {
-      sessionStorage.setItem('selectedDoubtId', doubtId);
-      window.location.href = 'doubt-detail.html';
+    function switchSubjectTab(event, subject) {
+      currentActiveTab = subject;
+      document.querySelectorAll('.subject-tab').forEach(tab => tab.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      loadFacultyDashboard();
     }
 
-    // Live sync + auto-refresh
-    loadFacultyDoubts();
-    window.addEventListener('storage', loadFacultyDoubts);
-    setInterval(loadFacultyDoubts, 3000);
+    function openDoubt(doubtId) {
+      if (doubtId && !isNaN(doubtId)) {
+        window.location.href = `faculty-answer.html?id=${doubtId}`;
+
+      }
+    }
+
+    function refreshNow() {
+      loadFacultyDashboard();
+    }
+
+    function forceRefresh() {
+      loadFacultyDashboard();
+    }
+    
+    setInterval(forceRefresh, 3000);
+    window.addEventListener('focus', forceRefresh);
+
+    loadFacultyDashboard();
   </script>
 </body>
 </html>
