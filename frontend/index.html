@@ -1,25 +1,226 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Doubt Desk</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header class="app-header">
+    <h1>Doubt Desk</h1>
+    <p class="subtitle">Ask better. Answer smarter.</p>
+  </header>
 
-<div class="container">
-  <h1>📚 Doubt Desk</h1>
+  <main class="container">
+    <!-- Role Selection -->
+    <section id="roleSelection" class="card">
+      <h2>Choose role</h2>
+      <div class="role-grid">
+        <button class="role-btn" data-role="student">Student</button>
+        <button class="role-btn" data-role="faculty">Faculty</button>
+        <button class="role-btn" data-role="admin">Admin</button>
+      </div>
+    </section>
 
-  <h2>Post a Doubt</h2>
+    <!-- Auth Section -->
+    <section id="authSection" class="card hidden">
+  <h2 id="authTitle"></h2>
+  <button id="backToRoles" class="back-btn">← Back to Role Selection</button>
 
-  <input id="title" placeholder="Doubt Title">
-  <textarea id="description" placeholder="Describe your doubt..."></textarea>
-  <input id="subject" placeholder="Subject (AI, ML, DBMS...)">
-  <button onclick="postDoubt()">Post Doubt</button>
+  <!-- Tabs for student only -->
+  <div id="studentTabs" class="hidden">
+    <button id="showLogin">Login</button>
+    <button id="showRegister">Register</button>
+  </div>
 
-  <h2>All Doubts</h2>
-  <div id="doubtList"></div>
-</div>
+  <!-- Login form -->
+  <form id="loginForm" class="auth-form">
+    <label for="loginEmail">Email</label>
+    <input type="email" id="loginEmail" required />
 
-<script src="script.js"></script>
+    <label for="loginPassword">Password</label>
+    <input type="password" id="loginPassword" required />
+
+    <button type="submit">Login</button>
+    <p id="loginMsg"></p>
+  </form>
+
+  <!-- Register form (students only) -->
+  <form id="registerForm" class="auth-form hidden">
+    <label for="regName">Name</label>
+    <input type="text" id="regName" required />
+
+    <label for="regEmail">Email</label>
+    <input type="email" id="regEmail" required />
+
+    <label for="regPassword">Password</label>
+    <input type="password" id="regPassword" required />
+
+    <label for="regSemester">Semester</label>
+    <input type="number" id="regSemester" min="1" max="6" required />
+
+    <button type="submit">Register</button>
+    <p id="registerMsg"></p>
+  </form>
+  
+</section>
+
+    <!-- Student Dashboard -->
+    <section id="studentDashboard" class="card hidden">
+      <div class="dash-header">
+        <h2>Student dashboard</h2>
+        <div class="dash-actions">
+          <span id="studentWelcome"></span>
+          <button id="logoutStudent" class="ghost">Logout</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Ask a doubt</h3>
+        <form id="askDoubtForm">
+          <div class="form-row">
+            <label>Semester</label>
+            <select id="sdSemester" required></select>
+          </div>
+          <div class="form-row">
+            <label>Subject</label>
+            <select id="sdSubject" required></select>
+          </div>
+          <div class="form-row">
+            <label>Describe your doubt</label>
+            <textarea id="sdText" rows="4" placeholder="Be clear and specific..." required></textarea>
+          </div>
+          <div class="form-row attachments">
+            <div>
+              <label>Image (optional)</label>
+              <input type="file" id="sdImage" accept="image/*"/>
+            </div>
+            <div>
+              <label>Video (optional)</label>
+              <input type="file" id="sdVideo" accept="video/*"/>
+            </div>
+          </div>
+          <button type="submit" class="primary">Submit doubt</button>
+          <p id="askMsg" class="msg"></p>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>My doubts</h3>
+        <div id="myDoubtsList" class="list"></div>
+      </div>
+
+      <div class="panel">
+        <h3>All doubts in selected subject</h3>
+        <div class="form-row">
+          <label>Subject</label>
+          <select id="sdSubjectFilter"></select>
+        </div>
+        <div id="subjectDoubtsList" class="list"></div>
+      </div>
+    </section>
+
+    <!-- Faculty Dashboard -->
+    <section id="facultyDashboard" class="card hidden">
+      <div class="dash-header">
+        <h2>Faculty dashboard</h2>
+        <div class="dash-actions">
+          <span id="facultyWelcome"></span>
+          <button id="logoutFaculty" class="ghost">Logout</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Assigned subjects</h3>
+        <div id="facultySubjects" class="chips"></div>
+      </div>
+
+      <div class="panel">
+        <h3>All doubts (your subjects)</h3>
+        <div id="facultyDoubtsList" class="list"></div>
+      </div>
+    </section>
+
+    <!-- Admin Dashboard -->
+    <section id="adminDashboard" class="card hidden">
+      <div class="dash-header">
+        <h2>Admin dashboard</h2>
+        <div class="dash-actions">
+          <span id="adminWelcome"></span>
+          <button id="logoutAdmin" class="ghost">Logout</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Assign faculty to semesters and subjects</h3>
+        <form id="assignForm">
+          <div class="grid-3">
+            <div class="form-row">
+              <label>Semester</label>
+              <select id="adSemester" required></select>
+            </div>
+            <div class="form-row">
+              <label>Faculty</label>
+              <select id="adFaculty" required></select>
+            </div>
+            <div class="form-row">
+              <label>Subjects (comma-separated)</label>
+              <input type="text" id="adSubjects" placeholder="e.g., DBMS, OS, CN" required />
+            </div>
+          </div>
+          <button type="submit" class="primary">Assign/update</button>
+          <p id="assignMsg" class="msg"></p>
+        </form>
+        <div class="panel-sub">
+          <h4>Current assignments</h4>
+          <div id="assignmentsView" class="list"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>All doubts (admin view)</h3>
+        <div id="adminDoubtsList" class="list"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal for answering doubts -->
+  <div id="answerModal" class="modal hidden">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h3>Answer doubt</h3>
+        <button id="closeAnswerModal" class="icon-btn" title="Close">&times;</button>
+      </div>
+      <div id="answerDoubtBody"></div>
+      <form id="answerDoubtForm">
+        <div class="form-row">
+          <label>Your answer</label>
+          <textarea id="fdAnswerText" rows="4" placeholder="Provide a clear explanation..." required></textarea>
+        </div>
+        <div class="form-row attachments">
+          <div>
+            <label>Image (optional)</label>
+            <input type="file" id="fdImage" accept="image/*"/>
+          </div>
+          <div>
+            <label>Video (optional)</label>
+            <input type="file" id="fdVideo" accept="video/*"/>
+          </div>
+        </div>
+        <button type="submit" class="primary">Submit answer</button>
+        <p id="answerMsg" class="msg"></p>
+      </form>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>Anonymous student IDs to faculty; admin sees full details.</p>
+  </footer>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
