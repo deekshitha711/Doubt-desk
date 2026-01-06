@@ -7,9 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-/* =========================
-   FIREBASE ADMIN SETUP
-========================= */
+//FIREBASE ADMIN SETUP
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
@@ -27,16 +25,12 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-/* =========================
-   HEALTH CHECK
-========================= */
+//HEALTH CHECK
 app.get("/", (req, res) => {
   res.send("Backend connected to Firebase ✅ - Anonymous Doubt Portal Active");
 });
 
-/* =========================
-   USERS & PROFILES
-========================= */
+// USERS & PROFILES
 
 // 1. Register a user (Student or Faculty)
 app.post("/api/users", async (req, res) => {
@@ -78,9 +72,7 @@ app.get("/api/users/:uid", async (req, res) => {
   }
 });
 
-/* =========================
-   DOUBTS APIs
-======================== */
+// DOUBTS APIs
 
 app.post("/api/doubts", async (req, res) => {
   const { title, description, subject, createdBy } = req.body;
@@ -133,9 +125,7 @@ app.get("/api/admin/doubts", async (req, res) => {
   }
 });
 
-/* =========================
-   ANSWERS
-========================= */
+//ANSWERS
 
 app.post("/api/answers", async (req, res) => {
   const { doubtId, answerText, answeredBy, role } = req.body;
@@ -162,9 +152,18 @@ app.get("/api/answers/:doubtId", async (req, res) => {
   }
 });
 
-/* =========================
-   SERVER START
-========================= */
+//Update doubt status when answered
+app.patch("/api/doubts/:id", async (req, res) => {
+  const { status } = req.body;
+  try {
+    await db.collection("doubts").doc(req.params.id).update({ status });
+    res.json({ message: "Status updated successfully" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update status" });
+  }
+});
+
+//SERVER START
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

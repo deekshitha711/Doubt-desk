@@ -1,25 +1,43 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Doubt Desk</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Doubt Desk - Student Portal</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>📚 Doubt Desk</h1>
 
-<div class="container">
-  <h1>📚 Doubt Desk</h1>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <strong>Questions Available:</strong>
+          <span id="availableCount">0</span>
+        </div>
+        <div class="stat-item">
+          <strong>Questions Answered:</strong> <span id="answeredCount">0</span>
+        </div>
+      </div>
 
-  <h2>Post a Doubt</h2>
+      <div class="post-section">
+        <h2>Post a Doubt</h2>
+        <input id="title" placeholder="Doubt Title" />
+        <textarea
+          id="description"
+          placeholder="Describe your doubt..."
+        ></textarea>
+        <input id="subject" placeholder="Subject (AI, ML, DBMS...)" />
+        <button onclick="postDoubt()">Post Doubt</button>
+      </div>
 
-  <input id="title" placeholder="Doubt Title">
-  <textarea id="description" placeholder="Describe your doubt..."></textarea>
-  <input id="subject" placeholder="Subject (AI, ML, DBMS...)">
-  <button onclick="postDoubt()">Post Doubt</button>
+      <hr />
 
-  <h2>All Doubts</h2>
-  <div id="doubtList"></div>
-</div>
+      <h2>All Doubts</h2>
+      <div id="doubtList">
+        <p>Loading doubts...</p>
+      </div>
+    </div>
 
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
