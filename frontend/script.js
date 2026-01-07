@@ -6,15 +6,39 @@
    - Faculty can answer doubts only for assigned subjects
    - Admin can view all and update assignments
 */
-const API_URL = "https://doubt-desk-backend.onrender.com";
-// Firebase config (use your real keys)
-firebase.initializeApp({
+
+
+const firebaseConfig = {
   apiKey: "AIzaSyBtyaqN64R5uNtEnA_SKpzVhJlkIPIb1CU",
   authDomain: "doubtdesk-372b2.firebaseapp.com",
-  storageBucket: "doubtdesk-372b2.firebasestorage.app"
-});
+  projectId: "doubtdesk-372b2",
+  storageBucket: "doubtdesk-372b2.appspot.com", // FIXED
+  messagingSenderId: "244068887976",
+  appId: "1:244068887976:web:26894b3c09fc8a310f419d"
+};
+
+firebase.initializeApp(firebaseConfig);
+console.log("Firebase initialized ✅");
 
 const storage = firebase.storage();
+console.log("Firebase storage ready ✅");
+
+// ===== Firebase upload helper =====
+// ===== Firebase upload helper =====
+async function uploadToFirebase(file, folder) {
+  console.log("Uploading:", file.name);
+
+  const ref = storage.ref(`${folder}/${Date.now()}_${file.name}`);
+  const snap = await ref.put(file);
+
+  console.log("Upload done ✅");
+
+  const url = await snap.ref.getDownloadURL();
+  console.log("Download URL:", url);
+
+  return url;
+}
+
 
 (function () {
   // Utils
@@ -29,7 +53,7 @@ const storage = firebase.storage();
   };
   const ROLES = { STUDENT: 'student', FACULTY: 'faculty', ADMIN: 'admin' };
 
-  // Default faculty and subjects (real names)
+  // Default faculty and subjects
   const DEFAULT_FACULTY = [
     { name: 'Dr. A. Prakash', email: 'fac1@example.com', password: 'password', semesters: [1] },
     { name: 'Dr. B. SriDevi', email: 'fac2@example.com', password: 'password', semesters: [2] },
@@ -59,7 +83,7 @@ const storage = firebase.storage();
     wireRoleSelection();
     wireTabs();
     wireAuth();
-    wireBackButton()
+    wireBackButton();
     wireStudent();
     wireFaculty();
     wireAdmin();
@@ -70,13 +94,23 @@ const storage = firebase.storage();
   // Storage helpers
   function load(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
   function save(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+  async function testBackend() {
+  try {
+    const res = await fetch("https://doubt-desk-backendd.onrender.com");
+    console.log("Backend reachable ✅", res.status);
+  } catch (e) {
+    console.error("Backend NOT reachable ❌", e);
+  }
+}
+
+testBackend();
 
   // Seeding
   function seedUsers() {
     return {
       students: [],
       faculty: DEFAULT_FACULTY.map(f => ({ ...f })), // clone
-      admins: [{ name: 'Admin', email: 'admin123@example.com', password: 'admin123' }]
+      admins: [{ name: 'Admin', email: 'admin123@example.com', password: 'password' }]
     };
   }
   function seedAssignments() {
@@ -85,51 +119,42 @@ const storage = firebase.storage();
 
   // Role selection
   function wireRoleSelection() {
-  document.querySelectorAll("#roleSelection .role-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const role = btn.dataset.role;
-      session = { role, email: null, name: null };
-      save(STORAGE_KEYS.session, session);
+    document.querySelectorAll("#roleSelection .role-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const role = btn.dataset.role;
+        session = { role, email: null, name: null };
+        save(STORAGE_KEYS.session, session);
 
-      document.getElementById("authSection").classList.remove("hidden");
-      document.getElementById("roleSelection").classList.add("hidden");
-      document.getElementById("authTitle").textContent = role + " authentication";
+        document.getElementById("authSection").classList.remove("hidden");
+        document.getElementById("roleSelection").classList.add("hidden");
+        document.getElementById("authTitle").textContent = role + " authentication";
 
-      // Student: show tabs for login/register
-      if (role === ROLES.STUDENT) {
-        document.getElementById("studentTabs").classList.remove("hidden");
-        document.getElementById("loginForm").classList.remove("hidden");
-        document.getElementById("registerForm").classList.add("hidden");
-      } else {
-        // Faculty/Admin: only login
-        document.getElementById("studentTabs").classList.add("hidden");
-        document.getElementById("loginForm").classList.remove("hidden");
-        document.getElementById("registerForm").classList.add("hidden");
-      }
+        if (role === ROLES.STUDENT) {
+          document.getElementById("studentTabs").classList.remove("hidden");
+          document.getElementById("loginForm").classList.remove("hidden");
+          document.getElementById("registerForm").classList.add("hidden");
+        } else {
+          document.getElementById("studentTabs").classList.add("hidden");
+          document.getElementById("loginForm").classList.remove("hidden");
+          document.getElementById("registerForm").classList.add("hidden");
+        }
+      });
     });
-  });
 
-  // Tab switching for student
-  document.getElementById("showLogin").addEventListener("click", () => {
-    document.getElementById("loginForm").classList.remove("hidden");
-    document.getElementById("registerForm").classList.add("hidden");
-  });
-  document.getElementById("showRegister").addEventListener("click", () => {
-    document.getElementById("registerForm").classList.remove("hidden");
-    document.getElementById("loginForm").classList.add("hidden");
-  });
-}
-  function setAuthTitle(role) {
-    $('#authTitle').textContent = {
-      [ROLES.STUDENT]: 'Student authentication',
-      [ROLES.FACULTY]: 'Faculty authentication',
-      [ROLES.ADMIN]: 'Admin authentication'
-    }[role];
-  }
-  function toggleStudentRegFields(role) {
-    const sr = $('#studentRegFields');
-    if (role === ROLES.STUDENT) sr.classList.remove('hidden');
-    else sr.classList.add('hidden');
+    const showLoginBtn = document.getElementById("showLogin");
+    const showRegisterBtn = document.getElementById("showRegister");
+    if (showLoginBtn) {
+      showLoginBtn.addEventListener("click", () => {
+        document.getElementById("loginForm").classList.remove("hidden");
+        document.getElementById("registerForm").classList.add("hidden");
+      });
+    }
+    if (showRegisterBtn) {
+      showRegisterBtn.addEventListener("click", () => {
+        document.getElementById("registerForm").classList.remove("hidden");
+        document.getElementById("loginForm").classList.add("hidden");
+      });
+    }
   }
 
   // Tabs
@@ -145,22 +170,22 @@ const storage = firebase.storage();
 
   // Auth
   function wireAuth() {
-    $('#loginForm').addEventListener('submit', handleLogin);
-    $('#registerForm').addEventListener('submit', handleRegisterStudent);
+    const loginForm = $('#loginForm');
+    const registerForm = $('#registerForm');
+    if (loginForm) loginForm.addEventListener('submit', handleLogin);
+    if (registerForm) registerForm.addEventListener('submit', handleRegisterStudent);
   }
+
   function wireBackButton() {
-  const backBtn = document.getElementById("backToRoles");
-  backBtn.addEventListener("click", () => {
-    // Reset session role
-    session = { role: null, email: null, name: null };
-    localStorage.setItem("dd_session", JSON.stringify(session));
-
-    // Hide auth section, show role selection again
-    document.getElementById("authSection").classList.add("hidden");
-    document.getElementById("roleSelection").classList.remove("hidden");
-  });
-}
-
+    const backBtn = document.getElementById("backToRoles");
+    if (!backBtn) return;
+    backBtn.addEventListener("click", () => {
+      session = { role: null, email: null, name: null };
+      save(STORAGE_KEYS.session, session);
+      document.getElementById("authSection").classList.add("hidden");
+      document.getElementById("roleSelection").classList.remove("hidden");
+    });
+  }
 
   function handleLogin(e) {
     e.preventDefault();
@@ -168,6 +193,31 @@ const storage = firebase.storage();
     const password = $('#loginPassword').value.trim();
     const role = session.role;
     const msgEl = $('#loginMsg');
+    loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  console.log("Login submitted");
+
+  const email = loginEmail.value;
+  const password = loginPassword.value;
+
+  console.log("Login data:", email, password);
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, role })
+    });
+
+    console.log("Login response status:", res.status);
+
+    const data = await res.json();
+    console.log("Login response data:", data);
+
+  } catch (err) {
+    console.error("Login failed ❌", err);
+  }
+});
 
     let user;
     if (role === ROLES.STUDENT) user = users.students.find(u => u.email === email && u.password === password);
@@ -175,15 +225,13 @@ const storage = firebase.storage();
     else user = users.admins.find(u => u.email === email && u.password === password);
 
     if (!user) {
-      msgEl.textContent = 'Invalid credentials.';
-      msgEl.className = 'msg err';
+      setMsg('#loginMsg', 'Invalid credentials.', 'err');
       return;
     }
     session.email = user.email;
     session.name = user.name;
     save(STORAGE_KEYS.session, session);
-    msgEl.textContent = 'Login successful.';
-    msgEl.className = 'msg ok';
+    setMsg('#loginMsg', 'Login successful.', 'ok');
     setTimeout(renderOnSession, 300);
   }
 
@@ -197,23 +245,19 @@ const storage = firebase.storage();
     const email = $('#regEmail').value.trim().toLowerCase();
     const password = $('#regPassword').value.trim();
     const semesterVal = parseInt($('#regSemester').value, 10);
-    const msgEl = $('#registerMsg');
 
     if (!name || !email || !password || isNaN(semesterVal) || semesterVal < 1 || semesterVal > 6) {
-      msgEl.textContent = 'Fill all fields and use valid semester (1–6).';
-      msgEl.className = 'msg err';
+      setMsg('#registerMsg', 'Fill all fields and use valid semester (1–6).', 'err');
       return;
     }
     if (users.students.find(u => u.email === email)) {
-      msgEl.textContent = 'Account already exists.';
-      msgEl.className = 'msg err';
+      setMsg('#registerMsg', 'Account already exists.', 'err');
       return;
     }
     const anonId = genAnonId();
     users.students.push({ name, email, password, semester: semesterVal, anonId });
     save(STORAGE_KEYS.users, users);
-    msgEl.textContent = 'Registration successful. You can login now.';
-    msgEl.className = 'msg ok';
+    setMsg('#registerMsg', 'Registration successful. You can login now.', 'ok');
   }
 
   function genAnonId() {
@@ -237,13 +281,18 @@ const storage = firebase.storage();
 
   // Student view
   function wireStudent() {
-    $('#logoutStudent').addEventListener('click', logout);
-    $('#askDoubtForm').addEventListener('submit', handleAskDoubt);
-    $('#sdSemester').addEventListener('change', () => {
+    const logoutBtn = $('#logoutStudent');
+    const askForm = $('#askDoubtForm');
+    const semSel = $('#sdSemester');
+    const subjectFilter = $('#sdSubjectFilter');
+
+    if (logoutBtn) logoutBtn.addEventListener('click', logout);
+    if (askForm) askForm.addEventListener('submit', handleAskDoubt);
+    if (semSel) semSel.addEventListener('change', () => {
       populateStudentSubjects();
       populateSubjectFilter();
     });
-    $('#sdSubjectFilter').addEventListener('change', renderSubjectDoubts);
+    if (subjectFilter) subjectFilter.addEventListener('change', renderSubjectDoubts);
   }
 
   function renderStudentView() {
@@ -261,6 +310,7 @@ const storage = firebase.storage();
 
   function populateStudentSemesters(mySemester) {
     const semSel = $('#sdSemester');
+    if (!semSel) return;
     semSel.innerHTML = '';
     const opt = document.createElement('option');
     opt.value = mySemester; opt.textContent = `Semester ${mySemester}`;
@@ -269,9 +319,11 @@ const storage = firebase.storage();
   }
 
   function populateStudentSubjects() {
-    const sem = parseInt($('#sdSemester').value, 10);
-    const subs = (assignments[sem]?.subjects) || [];
+    const semSel = $('#sdSemester');
     const sel = $('#sdSubject');
+    if (!semSel || !sel) return;
+    const sem = parseInt(semSel.value, 10);
+    const subs = (assignments[sem]?.subjects) || [];
     sel.innerHTML = '';
     subs.forEach(s => {
       const o = document.createElement('option');
@@ -281,9 +333,11 @@ const storage = firebase.storage();
   }
 
   function populateSubjectFilter() {
-    const sem = parseInt($('#sdSemester').value, 10);
-    const subs = (assignments[sem]?.subjects) || [];
+    const semSel = $('#sdSemester');
     const sel = $('#sdSubjectFilter');
+    if (!semSel || !sel) return;
+    const sem = parseInt(semSel.value, 10);
+    const subs = (assignments[sem]?.subjects) || [];
     sel.innerHTML = '';
     subs.forEach(s => {
       const o = document.createElement('option');
@@ -296,18 +350,31 @@ const storage = firebase.storage();
     e.preventDefault();
     const me = users.students.find(u => u.email === session.email);
     if (!me) return;
+    async function uploadToFirebase(file, folder) {
+  const ref = storage.ref(`${folder}/${Date.now()}_${file.name}`);
+  await ref.put(file);
+  return await ref.getDownloadURL();
+}
 
     const semester = parseInt($('#sdSemester').value, 10);
     const subject = $('#sdSubject').value;
     const text = $('#sdText').value.trim();
-    const imgFile = $('#sdImage').files[0];
-    const vidFile = $('#sdVideo').files[0];
+    const imgFile = $('#sdImage')?.files?.[0];
+    const vidFile = $('#sdVideo')?.files?.[0];
 
     if (!text) { setMsg('#askMsg', 'Please describe your doubt.', 'err'); return; }
 
     const attachments = [];
-    if (imgFile) attachments.push({ type: 'image', url: await fileToDataUrl(imgFile) });
-    if (vidFile) attachments.push({ type: 'video', url: await fileToDataUrl(vidFile) });
+    if (imgFile) {
+  const imgUrl = await uploadToFirebase(imgFile, "doubts/images");
+  attachments.push({ type: "image", url: imgUrl });
+}
+
+if (vidFile) {
+  const vidUrl = await uploadToFirebase(vidFile, "doubts/videos");
+  attachments.push({ type: "video", url: vidUrl });
+}
+
 
     const id = 'D-' + Date.now();
     doubts.push({
@@ -333,6 +400,7 @@ const storage = firebase.storage();
 
   function renderMyDoubts() {
     const me = users.students.find(u => u.email === session.email);
+    if (!me) return;
     const mine = doubts.filter(d => d.studentRealId === me.email).sort(sortByDate);
     $('#myDoubtsList').innerHTML = mine.map(renderDoubtItemForStudent).join('');
   }
@@ -340,6 +408,7 @@ const storage = firebase.storage();
   function renderSubjectDoubts() {
     const subject = $('#sdSubjectFilter').value;
     const me = users.students.find(u => u.email === session.email);
+    if (!me) return;
     const list = doubts
       .filter(d => d.semester === me.semester && d.subject === subject)
       .sort(sortByDate);
@@ -373,15 +442,16 @@ const storage = firebase.storage();
 
   // Faculty view
   function wireFaculty() {
-    $('#logoutFaculty').addEventListener('click', logout);
-    // Delegated Answer button click handled in wireModal()
+    const logoutBtn = $('#logoutFaculty');
+    if (logoutBtn) logoutBtn.addEventListener('click', logout);
+    // Answer button clicks are handled in wireModal()
   }
 
   function renderFacultyView() {
     const me = users.faculty.find(u => u.email === session.email);
     if (!me) return logout();
 
-    $('#facultyWelcome').textContent = `Welcome, ${me.name}`;
+    $('#facultyWelcome').textContent = `Hello ${me.name}`;
     $('#facultyDashboard').classList.remove('hidden');
 
     // Subjects chips
@@ -426,8 +496,12 @@ const storage = firebase.storage();
 
   // Answer modal
   function wireModal() {
-    $('#closeAnswerModal').addEventListener('click', closeAnswerModal);
-    $('#answerDoubtForm').addEventListener('submit', submitFacultyAnswer);
+    const closeBtn = $('#closeAnswerModal');
+    const form = $('#answerDoubtForm');
+
+    if (closeBtn) closeBtn.addEventListener('click', closeAnswerModal);
+    if (form) form.addEventListener('submit', submitFacultyAnswer);
+
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-action="answer"]');
       if (!btn) return;
@@ -453,17 +527,20 @@ const storage = firebase.storage();
         </div>
       </div>
     `;
-    $('#answerModal').dataset.did = did;
-    $('#answerModal').classList.remove('hidden');
+    const modal = $('#answerModal');
+    modal.dataset.did = did;
+    modal.classList.remove('hidden');
     setMsg('#answerMsg', '');
     $('#fdAnswerText').value = '';
-    $('#fdImage').value = '';
-    $('#fdVideo').value = '';
+    if ($('#fdImage')) $('#fdImage').value = '';
+    if ($('#fdVideo')) $('#fdVideo').value = '';
   }
 
   function closeAnswerModal() {
-    $('#answerModal').classList.add('hidden');
-    $('#answerModal').dataset.did = '';
+    const modal = $('#answerModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.dataset.did = '';
   }
 
   async function submitFacultyAnswer(e) {
@@ -471,89 +548,11 @@ const storage = firebase.storage();
     const did = $('#answerModal').dataset.did;
     const d = doubts.find(x => x.id === did);
     if (!d) return;
-=======
-const API_URL = "https://doubt-desk-backendd.onrender.com";
-
-async function loadDoubts() {
-  try {
-    const res = await fetch(`${API_URL}/api/doubts`);
-    const doubts = await res.json();
-
-    // 1. Logic for Counts
-    const available = doubts.filter((d) => d.status === "open").length;
-    const answered = doubts.filter((d) => d.status === "answered").length;
-
-    if (document.getElementById("availableCount"))
-      document.getElementById("availableCount").innerText = available;
-    if (document.getElementById("answeredCount"))
-      document.getElementById("answeredCount").innerText = answered;
-
-    const container = document.getElementById("doubtList");
-    container.innerHTML = "";
-
-    // 2. Logic for Displaying Doubts & their Answers
-    for (const d of doubts) {
-      const div = document.createElement("div");
-      div.className = "doubt-card";
-
-      const ansRes = await fetch(`${API_URL}/api/answers/${d.id}`);
-      const answers = await ansRes.json();
-
-      let answersHTML = answers
-        .map(
-          (a) => `
-        <div class="answer">
-            <strong>${a.role}:</strong> ${a.answerText}
-        </div>
-      `
-        )
-        .join("");
-
-      div.innerHTML = `
-            <h3>${d.title} <span class="badge ${d.status}">${
-        d.status
-      }</span></h3>
-            <p>${d.description}</p>
-            <small>Subject: ${d.subject} | Asked by: ${d.createdBy}</small>
-            <div class="answers-section">
-                <h4>Discussion:</h4>
-                ${answersHTML || "<p>No answers yet.</p>"}
-            </div>
-            <hr/>
-        `;
-      container.appendChild(div);
-    }
-  } catch (err) {
-    console.error("Failed to load doubts:", err);
-  }
-}
-
-async function postDoubt() {
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
-  const subject = document.getElementById("subject").value;
-  const studentId =
-    localStorage.getItem("temp_uid") ||
-    "student_" + Math.floor(Math.random() * 1000);
-  localStorage.setItem("temp_uid", studentId);
-
-  await fetch(`${API_URL}/api/doubts`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      title,
-      description,
-      subject,
-      createdBy: studentId,
-    }),
-  });
->>>>>>> 1efcf360f63ef3c18db7cf78ecdc1086d68df901
 
     const text = $('#fdAnswerText').value.trim();
-    const imgFile = $('#fdImage').files[0];
-    const vidFile = $('#fdVideo').files[0];
+    const imgFile = $('#fdImage')?.files?.[0];
+    const vidFile = $('#fdVideo')?.files?.[0];
 
-<<<<<<< HEAD
     if (!text) { setMsg('#answerMsg', 'Answer cannot be empty.', 'err'); return; }
 
     // Permission check: only assigned faculty can answer
@@ -574,7 +573,6 @@ async function postDoubt() {
     setTimeout(() => {
       closeAnswerModal();
       renderFacultyView();
-      // If student/admin viewing simultaneously, re-render based on role
       if (session.role === ROLES.STUDENT) renderStudentView();
       if (session.role === ROLES.ADMIN) renderAdminView();
     }, 300);
@@ -582,8 +580,10 @@ async function postDoubt() {
 
   // Admin view
   function wireAdmin() {
-    $('#logoutAdmin').addEventListener('click', logout);
-    $('#assignForm').addEventListener('submit', handleAssign);
+    const logoutBtn = $('#logoutAdmin');
+    const assignForm = $('#assignForm');
+    if (logoutBtn) logoutBtn.addEventListener('click', logout);
+    if (assignForm) assignForm.addEventListener('submit', handleAssign);
   }
 
   function renderAdminView() {
@@ -594,13 +594,19 @@ async function postDoubt() {
     $('#adminDashboard').classList.remove('hidden');
 
     // Populate selects
-    const semSel = $('#adSemester'); semSel.innerHTML = '';
-    for (let s = 1; s <= 6; s++) {
-      const o = document.createElement('option');
-      o.value = s; o.textContent = `Semester ${s}`; semSel.appendChild(o);
+    const semSel = $('#adSemester'); 
+    const facSel = $('#adFaculty');
+    if (semSel) {
+      semSel.innerHTML = '';
+      for (let s = 1; s <= 6; s++) {
+        const o = document.createElement('option');
+        o.value = s; o.textContent = `Semester ${s}`; semSel.appendChild(o);
+      }
     }
-    const facSel = $('#adFaculty'); facSel.innerHTML = users.faculty
-      .map(f => `<option value="${f.email}">${escapeHtml(f.name)} (${f.email})</option>`).join('');
+    if (facSel) {
+      facSel.innerHTML = users.faculty
+        .map(f => `<option value="${f.email}">${escapeHtml(f.name)} (${f.email})</option>`).join('');
+    }
 
     renderAssignmentsView();
 
@@ -611,6 +617,7 @@ async function postDoubt() {
 
   function renderAssignmentsView() {
     const view = $('#assignmentsView');
+    if (!view) return;
     const rows = [];
     for (let s = 1; s <= 6; s++) {
       const a = assignments[s];
@@ -712,6 +719,12 @@ async function postDoubt() {
       .replace(/>/g, '&gt;');
   }
 
+  function loadAdminDoubts() {
+fetch(`${BACKEND_URL}/api/doubts/all`)
+    .then(res => res.json())
+    .then(renderAdminDoubts);
+}
+
   function fileToDataUrl(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -721,7 +734,10 @@ async function postDoubt() {
     });
   }
 
+  function setMsg(sel, text, type = '') {
+    const el = $(sel);
+    if (!el) return;
+    el.textContent = text || '';
+    el.className = type ? `msg ${type}` : 'msg';
+  }
 })();
-=======
-loadDoubts();
->>>>>>> 1efcf360f63ef3c18db7cf78ecdc1086d68df901

@@ -17,11 +17,13 @@
 html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial;
+  font-family: 'Josefin Sans', sans-serif;
   color: var(--text);
-  background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+  background: url("https://wallpaperaccess.com/full/1963321.jpg") no-repeat center center fixed;
+  background-size: cover;
   overflow-x: hidden;
 }
+
 .back-btn {
   background: rgba(255,255,255,0.1);
   border: 1px solid #ccc;
@@ -52,6 +54,30 @@ body {
 .hidden { display: none !important; }
 
 .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.role-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 140px;
+  font-size: 16px;
+}
+
+.role-btn img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+.role-btn span {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
 .role-btn {
   padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border);
   background: rgba(255,255,255,0.04); color: var(--text); cursor: pointer;
