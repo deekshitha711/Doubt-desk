@@ -1,177 +1,214 @@
-// 🔥 YOUR FINAL WORKING script.js - Copy this EXACTLY
-console.log('DoubtDesk Starting...');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doubt Desk</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Doubt Desk</h1>
+    <p class="subtitle">Ask better. Answer smarter.</p>
+  </header>
+  <main class="container">
+    <!-- Role Selection -->
+    <section id="roleSelection" class="card">
+      <h2>Choose role</h2>
+      <div class="role-grid">
+  <button class="role-btn" data-role="student">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Student">
+    <span>Student</span>
+  </button>
 
-function initDoubtDesk() {
-    console.log('🔥 DoubtDesk INIT');
-    
-    // Role buttons - SIMPLE onclick
-    var studentBtn = document.querySelector('.role-btn[data-role="student"]');
-    var facultyBtn = document.querySelector('.role-btn[data-role="faculty"]');
-    var adminBtn = document.querySelector('.role-btn[data-role="admin"]');
-    
-    if (studentBtn) studentBtn.onclick = studentLogin;
-    if (facultyBtn) facultyBtn.onclick = facultyLogin;
-    if (adminBtn) adminBtn.onclick = adminLogin;
-    
-    // Login form
-    var loginForm = document.getElementById('loginForm');
-    if (loginForm) loginForm.onsubmit = doLogin;
-    
-    // Register form (students only)
-    var regForm = document.getElementById('registerForm');
-    if (regForm) regForm.onsubmit = doRegister;
-    
-    // Tabs
-    document.getElementById('showLogin').onclick = showLogin;
-    document.getElementById('showRegister').onclick = showRegister;
-    document.getElementById('backToRoles').onclick = backToRoles;
-    
-    console.log('✅ All buttons ready');
-}
+  <button class="role-btn" data-role="faculty">
+    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995574.png" alt="Faculty">
+    <span>Faculty</span>
+  </button>
 
-// 🔥 SIMPLE LOGIN - Works immediately
-function doLogin() {
-    event.preventDefault();
-    var email = document.getElementById('loginEmail').value.toLowerCase();
-    var password = document.getElementById('loginPassword').value;
-    
-    // Your predefined users
-    var validUsers = {
-        'fac1@example.com': 'faculty',
-        'fac2@example.com': 'faculty', 
-        'fac3@example.com': 'faculty',
-        'fac4@example.com': 'faculty',
-        'fac5@example.com': 'faculty',
-        'fac6@example.com': 'faculty',
-        'admin123@example.com': 'admin'
-    };
-    
-    if (validUsers[email] && password === 'password') {
-        // Success - save session
-        sessionStorage.setItem('userRole', validUsers[email]);
-        sessionStorage.setItem('userEmail', email);
-        
-        // Show dashboard
-        showDashboard(validUsers[email]);
-        document.getElementById('loginMsg').innerHTML = 'Login successful! ✅';
-        
-    } else {
-        document.getElementById('loginMsg').innerHTML = 'Wrong email/password';
-        document.getElementById('loginPassword').value = '';
-    }
-}
+  <button class="role-btn" data-role="admin">
+    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828479.png" alt="Admin">
+    <span>Admin</span>
+  </button>
+</div>
 
-function doRegister() {
-    event.preventDefault();
-    var name = document.getElementById('regName').value;
-    var email = document.getElementById('regEmail').value;
-    var password = document.getElementById('regPassword').value;
-    var semester = document.getElementById('regSemester').value;
-    
-    // Save student
-    sessionStorage.setItem('userRole', 'student');
-    sessionStorage.setItem('userEmail', email);
-    sessionStorage.setItem('userName', name);
-    
-    document.getElementById('registerMsg').innerHTML = 'Registered! Logging in...';
-    setTimeout(() => showDashboard('student'), 1000);
-}
-
-function studentLogin() {
-    document.getElementById('roleSelection').style.display = 'none';
-    document.getElementById('authSection').style.display = 'block';
-    document.getElementById('authTitle').innerText = 'Student Login/Register';
-    document.getElementById('studentTabs').style.display = 'flex';
-    document.getElementById('loginForm').style.display = 'block';
-}
-
-function facultyLogin() {
-    document.getElementById('roleSelection').style.display = 'none';
-    document.getElementById('authSection').style.display = 'block';
-    document.getElementById('authTitle').innerText = 'Faculty Login (fac1@example.com/password)';
-    document.getElementById('studentTabs').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('loginForm').style.display = 'block';
-}
-
-function adminLogin() {
-    document.getElementById('roleSelection').style.display = 'none';
-    document.getElementById('authSection').style.display = 'block';
-    document.getElementById('authTitle').innerText = 'Admin Login (admin123@example.com/password)';
-    document.getElementById('studentTabs').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('loginForm').style.display = 'block';
-}
-
-function showLogin() {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('registerForm').style.display = 'none';
-}
-
-function showRegister() {
-    document.getElementById('registerForm').style.display = 'block';
-    document.getElementById('loginForm').style.display = 'none';
-}
-
-function backToRoles() {
-    document.getElementById('roleSelection').style.display = 'block';
-    document.getElementById('authSection').style.display = 'none';
-    document.getElementById('studentDashboard').style.display = 'none';
-    document.getElementById('facultyDashboard').style.display = 'none';
-    document.getElementById('adminDashboard').style.display = 'none';
-}
-
-function showDashboard(role) {
-    // Hide all
-    document.getElementById('roleSelection').style.display = 'none';
-    document.getElementById('authSection').style.display = 'none';
-    
-    // Show dashboard
-    if (role === 'student') {
-        document.getElementById('studentDashboard').style.display = 'block';
-        document.getElementById('studentWelcome').innerText = 'Welcome Student!';
-    } else if (role === 'faculty') {
-        document.getElementById('facultyDashboard').style.display = 'block';
-        document.getElementById('facultyWelcome').innerText = 'Welcome Faculty!';
-    } else {
-        document.getElementById('adminDashboard').style.display = 'block';
-        document.getElementById('adminWelcome').innerText = 'Welcome Admin!';
-    }
-}
-
-// Post doubt with FireStorage
-function postDoubt() {
-    event.preventDefault();
-    console.log('Posting doubt...');
-    
-    var text = document.getElementById('sdText').value;
-    if (!text) {
-        alert('Please write your doubt');
-        return;
-    }
-    
-    alert('Doubt posted successfully!');
-    document.getElementById('sdText').value = '';
-}
-
-// Logout
-function logout() {
-    sessionStorage.clear();
-    document.getElementById('roleSelection').style.display = 'block';
-    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
-}
-
-// Wire dashboard buttons
-document.getElementById('logoutStudent').onclick = logout;
-document.getElementById('logoutFaculty').onclick = logout;
-document.getElementById('logoutAdmin').onclick = logout;
-document.getElementById('askDoubtForm').onsubmit = postDoubt;
-
-// Start app
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDoubtDesk);
-} else {
-    initDoubtDesk();
-}
-
-console.log('✅ DoubtDesk READY - LOGIN WORKS!');
+    </section>
+    <!-- Auth Section -->
+    <section id="authSection" class="card hidden">
+  <h2 id="authTitle"></h2>
+  <button id="backToRoles" class="back-btn">← Back to Role Selection</button>
+  <!-- Tabs for student only -->
+  <div id="studentTabs" class="hidden">
+    <button id="showLogin">Login</button>
+    <button id="showRegister">Register</button>
+  </div>
+  <!-- Login form -->
+  <form id="loginForm" class="auth-form">
+    <label for="loginEmail">Email</label>
+    <input type="email" id="loginEmail" required />
+    <label for="loginPassword">Password</label>
+    <input type="password" id="loginPassword" required />
+    <button type="submit">Login</button>
+    <p id="loginMsg"></p>
+  </form>
+  <!-- Register form (students only) -->
+  <form id="registerForm" class="auth-form hidden">
+    <label for="regName">Name</label>
+    <input type="text" id="regName" required />
+    <label for="regEmail">Email</label>
+    <input type="email" id="regEmail" required />
+    <label for="regPassword">Password</label>
+    <input type="password" id="regPassword" required />
+    <label for="regSemester">Semester</label>
+    <input type="number" id="regSemester" min="1" max="6" required />
+    <button type="submit">Register</button>
+    <p id="registerMsg"></p>
+  </form>
+  
+</section>
+    <!-- Student Dashboard -->
+    <section id="studentDashboard" class="card hidden">
+      <div class="dash-header">
+        <h2>Student dashboard</h2>
+        <div class="dash-actions">
+          <span id="studentWelcome"></span>
+          <button id="logoutStudent" class="ghost">Logout</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Ask a doubt</h3>
+        <form id="askDoubtForm">
+          <div class="form-row">
+            <label>Semester</label>
+            <select id="sdSemester" required></select>
+          </div>
+          <div class="form-row">
+            <label>Subject</label>
+            <select id="sdSubject" required></select>
+          </div>
+          <div class="form-row">
+            <label>Describe your doubt</label>
+            <textarea id="sdText" rows="4" placeholder="Be clear and specific..." required></textarea>
+          </div>
+          <div class="form-row attachments">
+            <div>
+              <label>Image (optional)</label>
+              <input type="file" id="sdImage" accept="image/*"/>
+            </div>
+            <div>
+              <label>Video (optional)</label>
+              <input type="file" id="sdVideo" accept="video/*"/>
+            </div>
+          </div>
+          <button type="submit" class="primary">Submit doubt</button>
+          <p id="askMsg" class="msg"></p>
+        </form>
+      </div>
+      <div class="panel">
+        <h3>My doubts</h3>
+        <div id="myDoubtsList" class="list"></div>
+      </div>
+      <div class="panel">
+        <h3>All doubts in selected subject</h3>
+        <div class="form-row">
+          <label>Subject</label>
+          <select id="sdSubjectFilter"></select>
+        </div>
+        <div id="subjectDoubtsList" class="list"></div>
+      </div>
+    </section>
+    <!-- Faculty Dashboard -->
+    <section id="facultyDashboard" class="card hidden">
+      <div class="dash-header">
+        <h2>Faculty dashboard</h2>
+        <div class="dash-actions">
+          <span id="facultyWelcome"></span>
+          <button id="logoutFaculty" class="ghost">Logout</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Assigned subjects</h3>
+        <div id="facultySubjects" class="chips"></div>
+      </div>
+      <div class="panel">
+        <h3>All doubts (your subjects)</h3>
+        <div id="facultyDoubtsList" class="list"></div>
+      </div>
+    </section>
+    <!-- Admin Dashboard -->
+    <section id="adminDashboard" class="card hidden">
+      <div class="dash-header">
+        <h2>Admin dashboard</h2>
+        <div class="dash-actions">
+          <span id="adminWelcome"></span>
+          <button id="logoutAdmin" class="ghost">Logout</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Assign faculty to semesters and subjects</h3>
+        <form id="assignForm">
+          <div class="grid-3">
+            <div class="form-row">
+              <label>Semester</label>
+              <select id="adSemester" required></select>
+            </div>
+            <div class="form-row">
+              <label>Faculty</label>
+              <select id="adFaculty" required></select>
+            </div>
+            <div class="form-row">
+              <label>Subjects (comma-separated)</label>
+              <input type="text" id="adSubjects" placeholder="e.g., DBMS, OS, CN" required />
+            </div>
+          </div>
+          <button type="submit" class="primary">Assign/update</button>
+          <p id="assignMsg" class="msg"></p>
+        </form>
+        <div class="panel-sub">
+          <h4>Current assignments</h4>
+          <div id="assignmentsView" class="list"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>All doubts (admin view)</h3>
+        <div id="adminDoubtsList" class="list"></div>
+      </div>
+    </section>
+  </main>
+  <!-- Modal for answering doubts -->
+  <div id="answerModal" class="modal hidden">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h3>Answer doubt</h3>
+        <button id="closeAnswerModal" class="icon-btn" title="Close">&times;</button>
+      </div>
+      <div id="answerDoubtBody"></div>
+      <form id="answerDoubtForm">
+        <div class="form-row">
+          <label>Your answer</label>
+          <textarea id="fdAnswerText" rows="4" placeholder="Provide a clear explanation..." required></textarea>
+        </div>
+        <div class="form-row attachments">
+          <div>
+            <label>Image (optional)</label>
+            <input type="file" id="fdImage" accept="image/*"/>
+          </div>
+          <div>
+            <label>Video (optional)</label>
+            <input type="file" id="fdVideo" accept="video/*"/>
+          </div>
+        </div>
+        <button type="submit" class="primary">Submit answer</button>
+        <p id="answerMsg" class="msg"></p>
+      </form>
+    </div>
+  </div>
+  <footer class="app-footer">
+    <p>Anonymous student IDs to faculty; admin sees full details.</p>
+  </footer>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
