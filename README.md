@@ -65,11 +65,32 @@
 4. Launch `index.html`.
 
 ---
+## Test Credentials
+
+To test the platform's role-based access, use the following credentials:
+
+### Faculty Accounts
+| Faculty Name | Email | Password | Assigned Subjects |
+| :--- | :--- | :--- | :--- |
+| **Dr. A. Prakash** | `fac1@example.com` | `password` | Mathematics I, Physics, C Programming |
+| **Dr. B. SriDevi** | `fac2@example.com` | `password` | Data Structures, Digital Logic, Discrete Math |
+| **Dr. C. BhanuSridhar** | `fac3@example.com` | `password` | DBMS, Operating Systems, Computer Networks |
+| **Dr. D. Gowthami** | `fac4@example.com` | `password` | Software Engineering, Algorithms, Microprocessors |
+| **Dr. E. Ashwini** | `fac5@example.com` | `password` | Compiler Design, Web Tech, AI |
+| **Dr. F. Santoshi** | `fac6@example.com` | `password` | Machine Learning, Cloud Computing, Cyber Security |
+
+### Admin Account
+* **Email:** `admin123@example.com`
+* **Password:** `password`
+
+### Student Accounts
+Students can **register a new account** directly through the registration form on the landing page. Once registered, the system generates a unique **Anonymous ID** for the student to maintain privacy during doubt sessions.
 
 ## Team Members & Contributions
 * **Y.Hari Priya:** Frontend Developer 
 * **A.Siri Vyshnavi:** Backend Developer
 * **K.Vineetha:** Firebase and Database
 * **E.K.Deekshitha:** Integration & Deployment
+  
  ##  GitHub Repository
 https://github.com/deekshitha711/Doubt-desk
