@@ -1,12 +1,3 @@
-/* Doubt Desk – Working localStorage prototype
-   - Six default faculty assigned to six semesters (3 real subjects each)
-   - Faculty login only (no registration) with password "password"
-   - Student registration + login
-   - Students ask doubts (text/image/video), view own and subject doubts
-   - Faculty can answer doubts only for assigned subjects
-   - Admin can view all and update assignments
-*/
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyBtyaqN64R5uNtEnA_SKpzVhJlkIPIb1CU",

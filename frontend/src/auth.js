@@ -15,7 +15,6 @@ window.signup = function () {
     .then(() => window.location.href = "login.html")
     .catch(err => alert(err.message));
 };
-
 /* LOGIN */
 window.login = function () {
   const email = document.getElementById("email").value;
@@ -25,7 +24,6 @@ window.login = function () {
     .then(() => window.location.href = "postDoubt.html")
     .catch(err => alert(err.message));
 };
-
 /* GOOGLE LOGIN */
 window.googleLogin = function () {
   const provider = new GoogleAuthProvider();
